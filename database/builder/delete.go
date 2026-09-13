@@ -1,10 +1,12 @@
 package builder
 
 import (
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database"
+	"gosalusa.com/database/dialects"
 )
 
+// Delete executes a delete statement against the model's table using the
+// current where clauses.
 func (b *ModelBuilder[T]) Delete(tx database.DB) error {
 	return b.builder.Delete(tx)
 }
@@ -24,6 +26,9 @@ func delete(b *Builder, tx database.DB) error {
 	}
 	return nil
 }
+
+// Delete executes a delete statement using the current where clauses, applying
+// any active delete scopes.
 func (b *Builder) Delete(tx database.DB) error {
 	current := delete
 	for _, s := range b.ActiveScopes() {
@@ -34,9 +39,12 @@ func (b *Builder) Delete(tx database.DB) error {
 	return current(b, tx)
 }
 
+// DeleteQuery returns the dialects.DeleteQuery that Delete will execute.
 func (b *ModelBuilder[T]) DeleteQuery() *dialects.DeleteQuery {
 	return b.builder.DeleteQuery()
 }
+
+// DeleteQuery returns the dialects.DeleteQuery that Delete will execute.
 func (b *Builder) DeleteQuery() *dialects.DeleteQuery {
 	return &dialects.DeleteQuery{
 		Table:  b.GetTable(),

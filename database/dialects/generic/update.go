@@ -3,9 +3,11 @@ package generic
 import (
 	"sort"
 
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database/dialects"
 )
 
+// EncodeUpdateQuery renders q as an UPDATE statement, including any WHERE
+// clause and a RETURNING clause when Returning is set.
 func (g *Generic) EncodeUpdateQuery(q *dialects.UpdateQuery) (dialects.RawQuery, error) {
 	b := newRawQueryBuilder().
 		AddString("UPDATE").
@@ -22,6 +24,8 @@ func (g *Generic) EncodeUpdateQuery(q *dialects.UpdateQuery) (dialects.RawQuery,
 	return b.Build()
 }
 
+// EncodeUpdateSet renders the SET clause of an update with the columns sorted
+// for deterministic output.
 func (g *Generic) EncodeUpdateSet(values map[string]any) (dialects.RawQuery, error) {
 	b := newRawQueryBuilder().AddString("SET")
 	results := make([]dialects.RawQuery, 0, len(values))

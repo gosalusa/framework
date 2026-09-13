@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"testing"
 
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/database/dialects/sqlite"
-	"abibby.com/salusa/database/migrate"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/internal/test"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/database/dialects/sqlite"
+	"gosalusa.com/database/migrate"
+	"gosalusa.com/database/model"
+	"gosalusa.com/internal/test"
 )
 
 func ExampleBelongsTo() {

@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"abibby.com/salusa/internal/helpers"
 	"github.com/go-openapi/spec"
 	"github.com/google/uuid"
+	"gosalusa.com/internal/helpers"
 )
 
 var (

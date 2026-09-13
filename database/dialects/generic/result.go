@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database/dialects"
 )
 
 type rawQueryBuilder struct {

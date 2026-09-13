@@ -3,19 +3,25 @@ package builder
 import (
 	"errors"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database"
+	"gosalusa.com/database/dialects"
 )
 
 var (
+	// ErrNoUpdates is returned when an update statement is built with no
+	// columns to update.
 	ErrNoUpdates = errors.New("no updates found")
 )
 
+// Updates maps column names to the values they should be set to.
 type Updates map[string]any
 
+// Update updates the records matched by the query with the given columns.
 func (b *ModelBuilder[T]) Update(tx database.DB, updates Updates) error {
 	return b.builder.Update(tx, updates)
 }
+
+// Update updates the records matched by the query with the given columns.
 func (b *Builder) Update(tx database.DB, updates Updates) error {
 	if len(updates) == 0 {
 		return nil
@@ -37,6 +43,8 @@ func (b *Builder) Update(tx database.DB, updates Updates) error {
 	return nil
 }
 
+// UpdateReturning updates the records matched by the query with the given
+// columns and returns the updated records that were matched.
 func (b *ModelBuilder[T]) UpdateReturning(tx database.DB, updates Updates) ([]T, error) {
 	if len(updates) == 0 {
 		return nil, nil
@@ -65,10 +73,13 @@ func (b *ModelBuilder[T]) UpdateReturning(tx database.DB, updates Updates) ([]T,
 	}
 	return result, nil
 }
+
+// UpdateQuery returns the dialects.UpdateQuery that Update will execute.
 func (b *ModelBuilder[T]) UpdateQuery(updates Updates) *dialects.UpdateQuery {
 	return b.builder.UpdateQuery(updates)
 }
 
+// UpdateQuery returns the dialects.UpdateQuery that Update will execute.
 func (b *Builder) UpdateQuery(updates Updates) *dialects.UpdateQuery {
 	return &dialects.UpdateQuery{
 		Table:  b.GetTable(),

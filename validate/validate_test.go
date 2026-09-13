@@ -5,8 +5,8 @@ import (
 	"errors"
 	"testing"
 
-	"abibby.com/salusa/validate"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/validate"
 )
 
 type fakeValidator struct {

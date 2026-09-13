@@ -5,9 +5,9 @@ import (
 	"testing"
 	"testing/fstest"
 
-	"abibby.com/salusa/static"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gosalusa.com/static"
 )
 
 func TestContent(t *testing.T) {

@@ -4,15 +4,20 @@ import (
 	"context"
 	"reflect"
 
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database/dialects"
 )
 
+// Conditions is a mutable collection of where clauses that can be built up
+// with the same methods exposed on Builder. It is used to build where and
+// having clauses as well as the on conditions of a join.
 type Conditions struct {
 	conditions []dialects.Condition
 	parent     any
 	ctx        context.Context
 }
 
+// Clone returns a copy of the conditions. Mutating the returned conditions, or
+// the original, will not affect the other.
 func (c *Conditions) Clone() *Conditions {
 	return &Conditions{
 		conditions: cloneSlice(c.conditions),
@@ -25,12 +30,14 @@ func (c *Conditions) withParent(parent any) *Conditions {
 	return c
 }
 
+// NewConditionBuilder returns a new empty Conditions.
 func NewConditionBuilder() *Conditions {
 	return &Conditions{
 		conditions: []dialects.Condition{},
 	}
 }
 
+// Build returns the conditions that have been added.
 func (c *Conditions) Build() []dialects.Condition {
 	return c.conditions
 }
@@ -74,7 +81,7 @@ func (b *Conditions) WhereExists(query dialects.QueryBuilder) *Conditions {
 	return b.whereExists(query, false)
 }
 
-// WhereExists add an exists clause to the query.
+// OrWhereExists add an or exists clause to the query.
 func (b *Conditions) OrWhereExists(query dialects.QueryBuilder) *Conditions {
 	return b.whereExists(query, true)
 }
@@ -88,12 +95,12 @@ func (b *Conditions) whereExists(query dialects.QueryBuilder, or bool) *Conditio
 	return b
 }
 
-// WhereExists add an exists clause to the query.
+// WhereNotExists add a not exists clause to the query.
 func (b *Conditions) WhereNotExists(query dialects.QueryBuilder) *Conditions {
 	return b.whereNotExists(query, false)
 }
 
-// WhereExists add an exists clause to the query.
+// OrWhereNotExists add an or not exists clause to the query.
 func (b *Conditions) OrWhereNotExists(query dialects.QueryBuilder) *Conditions {
 	return b.whereNotExists(query, true)
 }

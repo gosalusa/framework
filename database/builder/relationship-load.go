@@ -7,20 +7,36 @@ import (
 	"reflect"
 	"strings"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/internal/helpers"
-	"abibby.com/salusa/internal/relationship"
+	"gosalusa.com/database"
+	"gosalusa.com/internal/helpers"
+	"gosalusa.com/internal/relationship"
 )
 
+// Load eagerly loads the given relationship on each of the models.
+//
+//	Load(db, users, "posts")
+//
+// Nested relationships can be loaded by separating them with dots.
+//
+//	Load(db, users, "posts.comments")
 func Load(tx database.DB, models any, relation string) error {
 	return LoadContext(context.Background(), tx, models, relation)
 }
+
+// LoadContext is Load with a context used when executing the relationship
+// queries.
 func LoadContext(ctx context.Context, tx database.DB, models any, relation string) error {
 	return loadContext(ctx, tx, models, relation, false)
 }
+
+// LoadMissing loads the given relationship on each of the models, skipping any
+// that have already been loaded.
 func LoadMissing(tx database.DB, models any, relation string) error {
 	return LoadMissingContext(context.Background(), tx, models, relation)
 }
+
+// LoadMissingContext is LoadMissing with a context used when executing the
+// relationship queries.
 func LoadMissingContext(ctx context.Context, tx database.DB, models any, relation string) error {
 	return loadContext(ctx, tx, models, relation, true)
 }

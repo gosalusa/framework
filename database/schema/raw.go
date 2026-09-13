@@ -3,9 +3,10 @@ package schema
 import (
 	"context"
 
-	"abibby.com/salusa/database"
+	"gosalusa.com/database"
 )
 
+// Raw is a schema operation containing a raw SQL statement to execute as-is.
 type Raw string
 
 // Run implements [Runner].

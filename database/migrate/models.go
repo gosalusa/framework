@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/model"
+	"gosalusa.com/database"
+	"gosalusa.com/database/model"
 )
 
 func RunModelCreate(ctx context.Context, db database.DB, models ...model.Model) error {

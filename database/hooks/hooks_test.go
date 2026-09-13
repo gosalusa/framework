@@ -5,9 +5,9 @@ import (
 	"errors"
 	"testing"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/hooks"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database"
+	"gosalusa.com/database/hooks"
 )
 
 type recordingModel struct {

@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"net/url"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/openapidoc"
-	"abibby.com/salusa/router"
 	"github.com/go-openapi/spec"
+	"gosalusa.com/di"
+	"gosalusa.com/openapidoc"
+	"gosalusa.com/router"
 )
 
 // var _ openapidoc.APIDocer = (*Kernel)(nil)

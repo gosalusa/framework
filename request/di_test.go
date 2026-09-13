@@ -5,9 +5,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/request"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/di"
+	"gosalusa.com/request"
 )
 
 func TestDIMiddleware(t *testing.T) {

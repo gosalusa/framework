@@ -4,9 +4,9 @@ import (
 	"log/slog"
 	"testing"
 
-	"abibby.com/salusa/clog"
-	"abibby.com/salusa/clog/loki"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/clog"
+	"gosalusa.com/clog/loki"
 )
 
 func TestConfig_Handler(t *testing.T) {

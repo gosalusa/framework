@@ -9,10 +9,10 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"abibby.com/salusa/openapidoc"
 	"github.com/go-openapi/spec"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/openapidoc"
 )
 
 func TestSetAppKey(t *testing.T) {

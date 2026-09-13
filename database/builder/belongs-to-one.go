@@ -4,8 +4,8 @@ import (
 	"context"
 	"reflect"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/model"
+	"gosalusa.com/database"
+	"gosalusa.com/database/model"
 )
 
 // BelongsTo represents a belongs to relationship on a model. The parent model
@@ -26,6 +26,8 @@ type BelongsTo[T model.Model] struct {
 
 var _ Relationship = &BelongsTo[model.Model]{}
 
+// Initialize configures the relationship from the parent model and the struct
+// field that holds it.
 func (r *BelongsTo[T]) Initialize(parent any, field reflect.StructField) error {
 	var related T
 	r.parent = parent
@@ -44,6 +46,7 @@ func (r *BelongsTo[T]) Initialize(parent any, field reflect.StructField) error {
 	return nil
 }
 
+// Load fills the related value on each of the relationships in relations.
 func (r *BelongsTo[T]) Load(ctx context.Context, tx database.DB, relations []Relationship) error {
 	rm, err := r.relatedMap(ctx, tx, relations)
 	if err != nil {

@@ -4,10 +4,13 @@ import (
 	"context"
 	"fmt"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database"
+	"gosalusa.com/database/dialects"
 )
 
+// CreateTableBuilder builds a CREATE TABLE operation. Create returns one, and
+// it may be configured with IfNotExists or Temporary before Run executes it.
+// It implements Blueprinter and Runner.
 type CreateTableBuilder struct {
 	blueprint   *Blueprint
 	ifNotExists bool
@@ -16,6 +19,8 @@ type CreateTableBuilder struct {
 
 var _ Blueprinter = &CreateTableBuilder{}
 
+// Create starts a CREATE TABLE operation for the named table. The callback
+// populates the table's Blueprint with columns, indexes, and constraints.
 func Create(name string, cb func(b *Blueprint)) *CreateTableBuilder {
 	b := NewBlueprint(name)
 	cb(b)
@@ -24,13 +29,18 @@ func Create(name string, cb func(b *Blueprint)) *CreateTableBuilder {
 	}
 }
 
+// GetBlueprint returns the Blueprint describing the table.
 func (b *CreateTableBuilder) GetBlueprint() *Blueprint {
 	return b.blueprint
 }
+
+// Type returns [BlueprintTypeCreate].
 func (b *CreateTableBuilder) Type() BlueprintType {
 	return BlueprintTypeCreate
 }
 
+// CreateTableQuery converts the builder into a dialects.CreateTableQuery that
+// a dialect can encode into SQL.
 func (b *CreateTableBuilder) CreateTableQuery() *dialects.CreateTableQuery {
 	columns := make([]dialects.ColumnDefinition, len(b.blueprint.columns))
 	for i, c := range b.blueprint.columns {
@@ -58,6 +68,7 @@ func (b *CreateTableBuilder) CreateTableQuery() *dialects.CreateTableQuery {
 	}
 }
 
+// GoString renders the operation as a schema.Create(...) call.
 func (b *CreateTableBuilder) GoString() string {
 	return fmt.Sprintf(
 		"schema.Create(%#v, %#v)",
@@ -65,6 +76,9 @@ func (b *CreateTableBuilder) GoString() string {
 		b.blueprint,
 	)
 }
+
+// Run selects the dialect for the transaction's driver and executes the
+// rendered CREATE TABLE statement.
 func (b *CreateTableBuilder) Run(ctx context.Context, tx database.DB) error {
 	q := b.CreateTableQuery()
 	d, err := dialects.New(tx.DriverName())
@@ -78,10 +92,13 @@ func (b *CreateTableBuilder) Run(ctx context.Context, tx database.DB) error {
 	_, err = tx.ExecContext(ctx, result.SQL, result.Bindings...)
 	return err
 }
+// IfNotExists causes the statement to be generated with IF NOT EXISTS.
 func (b *CreateTableBuilder) IfNotExists() *CreateTableBuilder {
 	b.ifNotExists = true
 	return b
 }
+
+// Temporary causes a temporary table to be created.
 func (b *CreateTableBuilder) Temporary() *CreateTableBuilder {
 	b.temporary = true
 	return b

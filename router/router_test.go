@@ -1,8 +1,8 @@
 package router_test
 
 import (
-	"abibby.com/salusa/request"
-	"abibby.com/salusa/router"
+	"gosalusa.com/request"
+	"gosalusa.com/router"
 )
 
 func ExampleRouter() {

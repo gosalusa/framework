@@ -12,9 +12,9 @@ import (
 	"testing"
 	"time"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/pubsub"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/di"
+	"gosalusa.com/pubsub"
 )
 
 var errBoom = errors.New("boom")

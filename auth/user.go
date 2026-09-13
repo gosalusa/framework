@@ -1,8 +1,8 @@
 package auth
 
 import (
-	"abibby.com/salusa/database/model"
 	"github.com/google/uuid"
+	"gosalusa.com/database/model"
 )
 
 type User interface {

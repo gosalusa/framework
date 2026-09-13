@@ -1,10 +1,12 @@
 package builder
 
 import (
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/extra/sets"
+	"gosalusa.com/database"
+	"gosalusa.com/extra/sets"
 )
 
+// Scoper is implemented by models that define global scopes that should be
+// applied to every query against them.
 type Scoper interface {
 	Scopes() []*Scope
 }
@@ -15,7 +17,12 @@ type Scope struct {
 	Query  ScopeQueryFunc
 	Delete ScopeDeleteFunc
 }
+
+// ScopeQueryFunc modifies a query when the scope is applied.
 type ScopeQueryFunc func(b *Builder) *Builder
+
+// ScopeDeleteFunc wraps a delete statement so the scope can alter or block it
+// (for example, a soft delete scope rewrites deletes into updates).
 type ScopeDeleteFunc func(next func(q *Builder, tx database.DB) error) func(q *Builder, tx database.DB) error
 
 type scopes struct {
@@ -86,9 +93,14 @@ func (b *scopes) WithoutGlobalScope(scope *Scope) *scopes {
 	return b
 }
 
+// ActiveScopes returns the local scopes and the model's global scopes that are
+// currently applied to queries.
 func (b *Builder) ActiveScopes() []*Scope {
 	return b.scopes.allScopes()
 }
+
+// ActiveScopes returns the local scopes and the model's global scopes that are
+// currently applied to queries.
 func (b *ModelBuilder[T]) ActiveScopes() []*Scope {
 	return b.builder.ActiveScopes()
 }

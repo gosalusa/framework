@@ -6,10 +6,10 @@ import (
 	"fmt"
 	"reflect"
 
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/internal/helpers"
 	"github.com/jmoiron/sqlx"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/di"
+	"gosalusa.com/internal/helpers"
 )
 
 type userRegisterDeps struct {

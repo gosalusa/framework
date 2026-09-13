@@ -3,7 +3,7 @@ package generic_test
 import (
 	"strings"
 
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database/dialects"
 )
 
 type testCore struct{}

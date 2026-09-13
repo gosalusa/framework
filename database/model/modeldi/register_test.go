@@ -5,14 +5,14 @@ import (
 	"net/http"
 	"testing"
 
-	"abibby.com/salusa/database/dialects/sqlite"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/request"
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gosalusa.com/database/dialects/sqlite"
+	"gosalusa.com/database/model"
+	"gosalusa.com/di"
+	"gosalusa.com/request"
 )
 
 type testModel struct {

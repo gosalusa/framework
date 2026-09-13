@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"abibby.com/salusa/database/model/mixins"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/model/mixins"
 )
 
 func TestTimestampsBeforeSave(t *testing.T) {

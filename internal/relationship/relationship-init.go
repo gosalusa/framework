@@ -3,7 +3,7 @@ package relationship
 import (
 	"reflect"
 
-	"abibby.com/salusa/internal/helpers"
+	"gosalusa.com/internal/helpers"
 )
 
 var RelationType = reflect.TypeOf((*Relationship)(nil)).Elem()

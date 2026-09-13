@@ -5,7 +5,7 @@ import (
 	"io/fs"
 	"os"
 
-	"abibby.com/salusa/di"
+	"gosalusa.com/di"
 )
 
 type Config interface {

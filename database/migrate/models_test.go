@@ -4,11 +4,11 @@ import (
 	"context"
 	"testing"
 
-	"abibby.com/salusa/database/migrate"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/internal/test"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/migrate"
+	"gosalusa.com/database/model"
+	"gosalusa.com/internal/test"
 )
 
 func TestRunModelCreate(t *testing.T) {

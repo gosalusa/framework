@@ -6,21 +6,27 @@ import (
 	"fmt"
 	"reflect"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/internal/helpers"
-	"abibby.com/salusa/internal/relationship"
+	"gosalusa.com/database"
+	"gosalusa.com/internal/helpers"
+	"gosalusa.com/internal/relationship"
 )
 
+// ForeignKey describes how two tables are related: the local column on the
+// parent model and the column on the related table it references.
 type ForeignKey struct {
 	LocalKey     string
 	RelatedTable string
 	RelatedKey   string
 }
 
+// Equal reports whether v references the same columns and tables as f.
 func (f *ForeignKey) Equal(v *ForeignKey) bool {
 	return f.LocalKey == v.LocalKey && f.RelatedKey == v.RelatedKey && f.RelatedTable == v.RelatedTable
 }
 
+// Relationship is a model relationship that can be initialized from a parent
+// model, give back a query for the related records, and load those records from
+// the database.
 type Relationship interface {
 	relationship.Relationship
 	Subquery() *Builder
@@ -34,8 +40,11 @@ type relationValue[T any] struct {
 }
 
 var (
+	// ErrMissingRelationship is returned when a model does not have the given
+	// relationship.
 	ErrMissingRelationship = fmt.Errorf("missing relationship")
-	ErrMissingField        = fmt.Errorf("missing related field")
+	// ErrMissingField is returned when a model does not have the given field.
+	ErrMissingField = fmt.Errorf("missing related field")
 )
 
 // Value will return the related value and if it has been fetched.

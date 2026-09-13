@@ -1,7 +1,9 @@
 package generic
 
-import "abibby.com/salusa/database/dialects"
+import "gosalusa.com/database/dialects"
 
+// EncodeDeleteQuery renders q as a DELETE statement, including any WHERE
+// clause.
 func (g *Generic) EncodeDeleteQuery(q *dialects.DeleteQuery) (dialects.RawQuery, error) {
 	return newRawQueryBuilder().
 		AddString("DELETE FROM").

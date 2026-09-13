@@ -3,8 +3,8 @@ package auth
 import (
 	"fmt"
 
-	"abibby.com/salusa/internal/helpers"
 	"github.com/golang-jwt/jwt/v4"
+	"gosalusa.com/internal/helpers"
 )
 
 var ErrInvalidToken = fmt.Errorf("invalid token")

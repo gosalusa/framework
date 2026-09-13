@@ -3,10 +3,10 @@ package dialects_test
 import (
 	"testing"
 
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/database/dialects/sqlite"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/database/dialects/sqlite"
 )
 
 func TestJoinQueries(t *testing.T) {

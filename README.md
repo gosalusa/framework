@@ -1,7 +1,7 @@
 # Salusa
 
 [![Coverage](https://github.com/abibby/salusa/actions/workflows/coverage.yml/badge.svg)](https://github.com/abibby/salusa/actions/workflows/coverage.yml)
-[![Go Reference](https://pkg.go.dev/badge/abibby.com/salusa.svg)](https://pkg.go.dev/abibby.com/salusa)
+[![Go Reference](https://pkg.go.dev/badge/gosalusa.com.svg)](https://pkg.go.dev/gosalusa.com)
 
 <!-- TODO: add tagline -->
 
@@ -69,7 +69,7 @@ After you have your environment set up you can install the `spice` utility with
 go:
 
 ```
-go install abibby.com/salusa/spice@latest
+go install gosalusa.com/spice@latest
 ```
 
 Once you have installed `spice` you can create a new project with the `init`
@@ -110,7 +110,7 @@ The `app` direcoty contains all of the buisness logic of your application. In a
 new project the only file in this directory is `kernel.go` which is the core of
 the application. The kernel manages all of the long running services in you
 application. You can find more information in the
-[kernel](https://pkg.go.dev/abibby.com/salusa/kernel#Kernel) docs
+[kernel](https://pkg.go.dev/gosalusa.com/kernel#Kernel) docs
 
 ### Events
 
@@ -122,7 +122,7 @@ The `events` directory contains all of the events that you application can emit.
 application they all implement the `http.Handler` interface. Salusa provides the
 `request.Handler` helper for creating APIs that speeds up handling user input
 and returning json. Documentation can be found
-[here](https://pkg.go.dev/abibby.com/salusa/request#Handler).
+[here](https://pkg.go.dev/gosalusa.com/request#Handler).
 
 ### Jobs
 

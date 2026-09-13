@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"reflect"
 
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/internal/helpers"
-	"abibby.com/salusa/openapidoc"
 	"github.com/go-openapi/spec"
+	"gosalusa.com/database/model"
+	"gosalusa.com/internal/helpers"
+	"gosalusa.com/openapidoc"
 )
 
 var typeModel = reflect.TypeOf((*model.Model)(nil)).Elem()

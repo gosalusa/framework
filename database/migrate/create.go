@@ -3,12 +3,12 @@ package migrate
 import (
 	"slices"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/database/schema"
-	"abibby.com/salusa/internal/relationship"
-	"abibby.com/salusa/stream"
+	"gosalusa.com/database"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/database/model"
+	"gosalusa.com/database/schema"
+	"gosalusa.com/internal/relationship"
+	"gosalusa.com/stream"
 )
 
 func CreateFromModel(m model.Model) (*schema.CreateTableBuilder, error) {

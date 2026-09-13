@@ -5,8 +5,8 @@ import (
 	"log/slog"
 	"os"
 
-	"abibby.com/salusa/di"
 	"github.com/lmittmann/tint"
+	"gosalusa.com/di"
 )
 
 type key uint8

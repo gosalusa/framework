@@ -1,14 +1,14 @@
 package routes
 
 import (
-	"abibby.com/salusa/auth"
-	"abibby.com/salusa/openapidoc"
-	"abibby.com/salusa/request"
-	"abibby.com/salusa/router"
-	"abibby.com/salusa/static/template/app/handlers"
-	"abibby.com/salusa/static/template/app/models"
-	"abibby.com/salusa/view"
 	"github.com/google/uuid"
+	"gosalusa.com/auth"
+	"gosalusa.com/openapidoc"
+	"gosalusa.com/request"
+	"gosalusa.com/router"
+	"gosalusa.com/static/template/app/handlers"
+	"gosalusa.com/static/template/app/models"
+	"gosalusa.com/view"
 )
 
 func InitRoutes(r *router.Router) {

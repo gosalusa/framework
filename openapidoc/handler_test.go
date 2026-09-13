@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"testing"
 
-	"abibby.com/salusa/di"
 	"github.com/go-openapi/spec"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/di"
 )
 
 type testAPIDocer struct {

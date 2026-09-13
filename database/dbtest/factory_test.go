@@ -3,12 +3,12 @@ package dbtest_test
 import (
 	"testing"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/database/dbtest"
-	"abibby.com/salusa/internal/test"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/database/dbtest"
+	"gosalusa.com/internal/test"
 )
 
 func TestFactory(t *testing.T) {

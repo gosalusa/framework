@@ -5,8 +5,8 @@ import (
 	"net/url"
 	"strings"
 
-	"abibby.com/salusa/router"
 	"github.com/google/uuid"
+	"gosalusa.com/router"
 )
 
 type TestResolver struct {

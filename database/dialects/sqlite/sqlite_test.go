@@ -4,11 +4,11 @@ import (
 	"errors"
 	"testing"
 
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/database/dialects/generic"
-	"abibby.com/salusa/database/dialects/sqlite"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/database/dialects/generic"
+	"gosalusa.com/database/dialects/sqlite"
 )
 
 func TestSQLiteCoreIdentifier(t *testing.T) {

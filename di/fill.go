@@ -7,15 +7,23 @@ import (
 	"reflect"
 	"strings"
 
-	"abibby.com/salusa/internal/helpers"
+	"gosalusa.com/internal/helpers"
 )
 
 // var ErrNotFillable = errors.New("struct is not fillable")
 
+// Fill populates the inject fields of v, a non-nil pointer to a struct, using
+// the dependency provider carried by ctx. Fields without an inject tag are left
+// untouched. Dependencies that are not registered are filled recursively when
+// they are fillable structs; otherwise an error wrapping ErrNotRegistered is
+// returned unless the inject tag is marked optional.
 func Fill(ctx context.Context, v any) error {
 	dp := GetDependencyProvider(ctx)
 	return dp.fill(ctx, reflect.ValueOf(v), "")
 }
+
+// Fill populates the inject fields of v using this provider, rebinding ctx to
+// dp so that recursively filled dependencies resolve against it.
 func (dp *DependencyProvider) Fill(ctx context.Context, v any) error {
 	if ctx.Value(dpKey) != dp {
 		ctx = ContextWithDependencyProvider(ctx, dp)
@@ -79,6 +87,8 @@ func (dp *DependencyProvider) fill(ctx context.Context, v reflect.Value, tag str
 	return nil
 }
 
+// IsFillable reports whether v is a pointer to a struct that has at least one
+// field with an inject tag.
 func IsFillable(v any) bool {
 	return isFillable(reflect.TypeOf(v))
 }

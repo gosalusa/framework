@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"reflect"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/salusaconfig"
+	"gosalusa.com/di"
+	"gosalusa.com/salusaconfig"
 )
 
 var (

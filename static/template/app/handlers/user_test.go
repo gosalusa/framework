@@ -4,13 +4,13 @@ import (
 	"context"
 	"testing"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/static/template/app/handlers"
-	"abibby.com/salusa/static/template/app/models"
-	"abibby.com/salusa/static/template/test"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gosalusa.com/database"
+	"gosalusa.com/static/template/app/handlers"
+	"gosalusa.com/static/template/app/models"
+	"gosalusa.com/static/template/test"
 )
 
 func TestUserGet(t *testing.T) {

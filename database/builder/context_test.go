@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"abibby.com/salusa/database/builder"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/builder"
 )
 
 func TestContext(t *testing.T) {

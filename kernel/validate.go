@@ -4,7 +4,7 @@ import (
 	"context"
 	"reflect"
 
-	"abibby.com/salusa/validate"
+	"gosalusa.com/validate"
 )
 
 var _ validate.Validator = (*Kernel)(nil)

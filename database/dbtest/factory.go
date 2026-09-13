@@ -1,8 +1,8 @@
 package dbtest
 
 import (
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/model"
+	"gosalusa.com/database"
+	"gosalusa.com/database/model"
 )
 
 type Factory[T model.Model] func(tx database.DB) T

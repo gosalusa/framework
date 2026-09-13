@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 
-	"abibby.com/salusa/auth"
-	"abibby.com/salusa/database/dbtest"
-	"abibby.com/salusa/database/dialects/sqlite"
-	"abibby.com/salusa/database/migrate"
-	"abibby.com/salusa/database/model"
 	"github.com/jmoiron/sqlx"
+	"gosalusa.com/auth"
+	"gosalusa.com/database/dbtest"
+	"gosalusa.com/database/dialects/sqlite"
+	"gosalusa.com/database/migrate"
+	"gosalusa.com/database/model"
 )
 
 type AutoIncrementUser struct {

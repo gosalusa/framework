@@ -3,11 +3,11 @@ package builder_test
 import (
 	"testing"
 
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/internal/test"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/internal/test"
 )
 
 func TestUpdater(t *testing.T) {

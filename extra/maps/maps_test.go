@@ -4,8 +4,8 @@ import (
 	"sort"
 	"testing"
 
-	maps "abibby.com/salusa/extra/maps"
 	"github.com/stretchr/testify/assert"
+	maps "gosalusa.com/extra/maps"
 )
 
 func TestSync_MapInterface(t *testing.T) {

@@ -4,15 +4,15 @@ import (
 	"testing"
 	"time"
 
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/database/migrate"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/database/schema"
 	"github.com/abibby/nulls"
 	"github.com/bradleyjkemp/cupaloy"
 	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/database/migrate"
+	"gosalusa.com/database/model"
+	"gosalusa.com/database/schema"
 )
 
 type Date int

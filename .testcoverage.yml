@@ -1,7 +1,7 @@
 profile: cover.out
 
 local:
-  prefix: abibby.com/salusa
+  prefix: gosalusa.com
 
 threshold:
   package: 80

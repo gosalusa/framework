@@ -6,10 +6,10 @@ import (
 	"reflect"
 	"time"
 
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/internal/helpers"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/database/model"
+	"gosalusa.com/internal/helpers"
 )
 
 type field struct {
@@ -54,9 +54,9 @@ func getFields(m model.Model) ([]*field, error) {
 				Name: tag.Type,
 			}
 
-			if !f.dataType.IsValid() {
-				return fmt.Errorf("data type %s is not valid", tag.Type)
-			}
+			// if !f.dataType.IsValid() {
+			// 	return fmt.Errorf("data type %s is not valid", tag.Type)
+			// }
 		} else {
 			switch field := fv.Interface().(type) {
 			case dialects.DataTyper:

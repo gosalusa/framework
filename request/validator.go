@@ -7,8 +7,8 @@ import (
 	"reflect"
 	"strings"
 
-	"abibby.com/salusa/internal/helpers"
-	"abibby.com/salusa/request/rules"
+	"gosalusa.com/internal/helpers"
+	"gosalusa.com/request/rules"
 )
 
 type Validator interface {

@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	salusaerrors "abibby.com/salusa/errors"
 	"github.com/stretchr/testify/assert"
+	salusaerrors "gosalusa.com/errors"
 )
 
 func TestSentinelError(t *testing.T) {

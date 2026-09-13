@@ -5,9 +5,9 @@ import (
 	"log/slog"
 	"testing"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/static/template/app/events"
 	"github.com/stretchr/testify/require"
+	"gosalusa.com/di"
+	"gosalusa.com/static/template/app/events"
 )
 
 func TestLogJob_Handle(t *testing.T) {

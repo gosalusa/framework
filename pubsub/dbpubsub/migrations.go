@@ -1,7 +1,7 @@
 package dbpubsub
 
 import (
-	"abibby.com/salusa/database/migrate"
+	"gosalusa.com/database/migrate"
 )
 
 var migrations = migrate.New()

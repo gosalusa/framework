@@ -4,7 +4,7 @@ import (
 	"context"
 	"testing"
 
-	"abibby.com/salusa/pubsub"
+	"gosalusa.com/pubsub"
 )
 
 type fakeMessage struct {

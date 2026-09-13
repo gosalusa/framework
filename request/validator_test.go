@@ -3,8 +3,8 @@ package request
 import (
 	"testing"
 
-	"abibby.com/salusa/request/rules"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/request/rules"
 )
 
 func Test_Validate_fails_with_non_struct_arguments(t *testing.T) {

@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"testing"
 
-	"abibby.com/salusa/router"
-	"abibby.com/salusa/router/routertest"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/router"
+	"gosalusa.com/router/routertest"
 )
 
 func TestNewTestResolver(t *testing.T) {

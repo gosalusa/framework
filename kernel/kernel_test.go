@@ -12,13 +12,13 @@ import (
 	"testing"
 	"time"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/openapidoc"
-	"abibby.com/salusa/router"
-	"abibby.com/salusa/salusaconfig"
 	"github.com/go-openapi/spec"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gosalusa.com/di"
+	"gosalusa.com/openapidoc"
+	"gosalusa.com/router"
+	"gosalusa.com/salusaconfig"
 )
 
 type testConfig struct {

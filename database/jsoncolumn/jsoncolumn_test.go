@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"testing"
 
-	"abibby.com/salusa/database/jsoncolumn"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/jsoncolumn"
 )
 
 func TestScan(t *testing.T) {

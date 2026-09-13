@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   mysql_db:
     image: mysql:8.0
@@ -9,7 +9,10 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - type: tmpfs
+        target: /var/lib/mysql
+        tmpfs:
+          size: 512m
 
   postgres_db:
     image: postgres:14
@@ -21,8 +24,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  mysql_data:
-  postgres_data:
+      - type: tmpfs
+        target: /var/lib/postgresql/data
+        tmpfs:
+          size: 512m

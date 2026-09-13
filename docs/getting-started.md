@@ -2,7 +2,7 @@
 
 ## Spice
 
-The `spice` utility can be installed with `go install abibby.com/salusa/spice@latest`
+The `spice` utility can be installed with `go install gosalusa.com/spice@latest`
 
 ##
 

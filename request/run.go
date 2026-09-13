@@ -14,8 +14,8 @@ import (
 	"strings"
 	"time"
 
-	"abibby.com/salusa/internal/helpers"
 	"github.com/gorilla/mux"
+	"gosalusa.com/internal/helpers"
 )
 
 const (

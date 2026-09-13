@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"abibby.com/salusa/extra/maps"
+	"gosalusa.com/extra/maps"
 )
 
 type contextKey uint8
@@ -15,13 +15,22 @@ const (
 	dpKey contextKey = iota
 )
 
+// DependencyProvider is a registry of the factories that build and cache
+// dependencies. It is attached to a context.Context and used to resolve and
+// fill dependencies from it.
 type DependencyProvider struct {
 	factories maps.Map[reflect.Type, Factory]
 }
 
 var (
-	ErrNotRegistered                  = errors.New("dependency not registered")
-	ErrFillParameters                 = errors.New("invalid fill parameters")
+	// ErrNotRegistered is returned when a dependency has no registered factory.
+	ErrNotRegistered = errors.New("dependency not registered")
+	// ErrFillParameters is returned when Fill is called with a value that is
+	// not a non-nil pointer.
+	ErrFillParameters = errors.New("invalid fill parameters")
+	// ErrDependencyProviderNotInContext is returned when a dependency that
+	// requires a DependencyProvider is resolved from a context that does not
+	// carry one.
 	ErrDependencyProviderNotInContext = errors.New("DependencyProvider not in context")
 )
 
@@ -36,6 +45,9 @@ func errNotRegistered(t reflect.Type) error {
 
 var defaultProvider = NewDependencyProvider()
 
+// NewDependencyProvider returns a new DependencyProvider that can resolve
+// itself and the surrounding context.Context. Any dependencies registered on
+// the returned provider are isolated from every other provider.
 func NewDependencyProvider() *DependencyProvider {
 	dp := &DependencyProvider{
 		factories: &maps.Sync[reflect.Type, Factory]{},
@@ -49,10 +61,14 @@ func NewDependencyProvider() *DependencyProvider {
 	return dp
 }
 
+// ContextWithDependencyProvider returns a copy of ctx that carries dp as its
+// dependency provider.
 func ContextWithDependencyProvider(ctx context.Context, dp *DependencyProvider) context.Context {
 	return context.WithValue(ctx, dpKey, dp)
 }
 
+// GetDependencyProvider returns the DependencyProvider stored on ctx, or the
+// shared default provider when ctx does not carry one.
 func GetDependencyProvider(ctx context.Context) *DependencyProvider {
 	v := ctx.Value(dpKey)
 	if v == nil {
@@ -64,6 +80,9 @@ func GetDependencyProvider(ctx context.Context) *DependencyProvider {
 	}
 	return dp
 }
+
+// TestDependencyProviderContext returns a background context carrying a fresh
+// DependencyProvider for use in tests.
 func TestDependencyProviderContext() context.Context {
 	return ContextWithDependencyProvider(
 		context.Background(),
@@ -71,6 +90,8 @@ func TestDependencyProviderContext() context.Context {
 	)
 }
 
+// Singletons returns the registered singleton factories in no particular
+// order.
 func (dp *DependencyProvider) Singletons() []Singleton {
 	singletons := []Singleton{}
 
@@ -81,6 +102,9 @@ func (dp *DependencyProvider) Singletons() []Singleton {
 	}
 	return singletons
 }
+
+// Singletons returns the singleton factories registered on the provider
+// carried by ctx, in no particular order.
 func Singletons(ctx context.Context) []Singleton {
 	dp := GetDependencyProvider(ctx)
 	return dp.Singletons()

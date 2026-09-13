@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"strings"
 
-	"abibby.com/salusa/di"
+	"gosalusa.com/di"
 )
 
 //go:generate sh -c "curl https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js | gzip > redoc.standalone.js.gz"

@@ -9,9 +9,9 @@ import (
 	"testing"
 	"time"
 
-	"abibby.com/salusa/clog"
-	"abibby.com/salusa/di"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/clog"
+	"gosalusa.com/di"
 )
 
 func register() (context.Context, *bytes.Buffer) {

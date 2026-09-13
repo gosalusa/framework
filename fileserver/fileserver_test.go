@@ -7,8 +7,8 @@ import (
 	"testing"
 	"testing/fstest"
 
-	"abibby.com/salusa/fileserver"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/fileserver"
 )
 
 func testFS() fs.FS {

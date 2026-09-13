@@ -4,11 +4,11 @@ import (
 	"context"
 	"net/http"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/openapidoc"
-	"abibby.com/salusa/router"
-	"abibby.com/salusa/salusaconfig"
 	"github.com/go-openapi/spec"
+	"gosalusa.com/di"
+	"gosalusa.com/openapidoc"
+	"gosalusa.com/router"
+	"gosalusa.com/salusaconfig"
 )
 
 type KernelOption func(*Kernel) *Kernel

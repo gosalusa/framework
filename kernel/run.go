@@ -12,9 +12,9 @@ import (
 	"os/signal"
 	"reflect"
 
-	"abibby.com/salusa/clog"
-	"abibby.com/salusa/di"
 	"github.com/spf13/pflag"
+	"gosalusa.com/clog"
+	"gosalusa.com/di"
 )
 
 func (k *Kernel) Run(ctx context.Context) error {

@@ -1,7 +1,7 @@
 package channelpubsub
 
 import (
-	"abibby.com/salusa/pubsub"
+	"gosalusa.com/pubsub"
 )
 
 type PubSub struct {

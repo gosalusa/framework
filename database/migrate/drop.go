@@ -3,8 +3,8 @@ package migrate
 import (
 	"fmt"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/model"
+	"gosalusa.com/database"
+	"gosalusa.com/database/model"
 )
 
 type dropTable string

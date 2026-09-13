@@ -4,12 +4,12 @@ import (
 	"errors"
 	"os"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/dialects/sqlite"
-	"abibby.com/salusa/email"
-	"abibby.com/salusa/env"
-	"abibby.com/salusa/filesystem"
 	"github.com/joho/godotenv"
+	"gosalusa.com/database"
+	"gosalusa.com/database/dialects/sqlite"
+	"gosalusa.com/email"
+	"gosalusa.com/env"
+	"gosalusa.com/filesystem"
 )
 
 type Config struct {

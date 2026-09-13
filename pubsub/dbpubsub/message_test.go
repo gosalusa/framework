@@ -7,12 +7,12 @@ import (
 	"sync/atomic"
 	"testing"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/internal/test"
-	"abibby.com/salusa/pubsub"
-	"abibby.com/salusa/pubsub/dbpubsub"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database"
+	"gosalusa.com/internal/test"
+	"gosalusa.com/pubsub"
+	"gosalusa.com/pubsub/dbpubsub"
 )
 
 var errBoom = errors.New("boom")

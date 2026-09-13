@@ -1,7 +1,7 @@
 package builder
 
 import (
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database/dialects"
 )
 
 // Join adds a join clause to the query.

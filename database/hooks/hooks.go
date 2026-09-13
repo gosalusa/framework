@@ -4,7 +4,7 @@ import (
 	"context"
 	"reflect"
 
-	"abibby.com/salusa/database"
+	"gosalusa.com/database"
 )
 
 type BeforeSaver interface {

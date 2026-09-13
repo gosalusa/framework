@@ -3,12 +3,17 @@ package generic
 import (
 	"fmt"
 
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database/dialects"
 )
 
+// EncodeWheres renders the WHERE clause of a query, or nothing if there are no
+// conditions.
 func (g *Generic) EncodeWheres(c []dialects.Condition) (dialects.RawQuery, error) {
 	return g.encodeConditionsPrefix("WHERE", c)
 }
+
+// EncodeHavings renders the HAVING clause of a query, or nothing if there are
+// no conditions.
 func (g *Generic) EncodeHavings(c []dialects.Condition) (dialects.RawQuery, error) {
 	return g.encodeConditionsPrefix("HAVING", c)
 }
@@ -20,6 +25,9 @@ func (g *Generic) encodeConditionsPrefix(prefix string, c []dialects.Condition) 
 	return newRawQueryBuilder().AddString(prefix).Add(g.EncodeConditions(c)).Build()
 }
 
+// EncodeConditions renders the conditions joined by AND, or OR for a condition
+// with Or set. A nil value with an = or != operator becomes IS NULL or IS NOT
+// NULL, and a []any value becomes an IN (...) list.
 func (g *Generic) EncodeConditions(c []dialects.Condition) (dialects.RawQuery, error) {
 	b := newRawQueryBuilder()
 	for i, c := range c {

@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"testing"
 
-	"abibby.com/salusa/database/migrate"
-	"abibby.com/salusa/database/model"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/migrate"
+	"gosalusa.com/database/model"
 )
 
 func TestGetFieldsErrors(t *testing.T) {

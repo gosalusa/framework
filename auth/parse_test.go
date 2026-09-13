@@ -4,9 +4,9 @@ import (
 	"encoding/base64"
 	"testing"
 
-	"abibby.com/salusa/auth"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/auth"
 )
 
 func TestParse(t *testing.T) {

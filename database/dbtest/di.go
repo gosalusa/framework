@@ -1,8 +1,8 @@
 package dbtest
 
 import (
-	"abibby.com/salusa/database"
 	"github.com/jmoiron/sqlx"
+	"gosalusa.com/database"
 )
 
 func Update(tx *sqlx.Tx) database.Update {

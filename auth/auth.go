@@ -9,11 +9,11 @@ import (
 	"log/slog"
 	"net/http"
 
-	"abibby.com/salusa/clog"
-	"abibby.com/salusa/openapidoc"
-	"abibby.com/salusa/request"
-	"abibby.com/salusa/router"
 	"github.com/go-openapi/spec"
+	"gosalusa.com/clog"
+	"gosalusa.com/openapidoc"
+	"gosalusa.com/request"
+	"gosalusa.com/router"
 )
 
 type contextKey uint8

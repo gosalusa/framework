@@ -4,10 +4,10 @@ import (
 	"errors"
 	"testing"
 
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/database/dialects/generic"
-	"abibby.com/salusa/internal/test"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/database/dialects/generic"
+	"gosalusa.com/internal/test"
 )
 
 func TestGeneric_EncodeInsertQuery(t *testing.T) {

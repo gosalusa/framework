@@ -5,9 +5,9 @@ import (
 	"log/slog"
 	"time"
 
-	"abibby.com/salusa/event"
-	"abibby.com/salusa/kernel"
 	"github.com/robfig/cron/v3"
+	"gosalusa.com/event"
+	"gosalusa.com/kernel"
 )
 
 type Event interface {

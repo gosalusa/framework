@@ -4,10 +4,10 @@ import (
 	"context"
 	"testing"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/kernel"
-	"abibby.com/salusa/openapidoc"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/di"
+	"gosalusa.com/kernel"
+	"gosalusa.com/openapidoc"
 )
 
 func TestRegister(t *testing.T) {

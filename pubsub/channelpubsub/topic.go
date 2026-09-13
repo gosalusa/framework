@@ -3,8 +3,8 @@ package channelpubsub
 import (
 	"context"
 
-	"abibby.com/salusa/pubsub"
 	"github.com/google/uuid"
+	"gosalusa.com/pubsub"
 )
 
 type Topic struct {

@@ -6,9 +6,9 @@ import (
 	"reflect"
 	"testing"
 
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/internal/relationship"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/model"
+	"gosalusa.com/internal/relationship"
 )
 
 type barModel struct {

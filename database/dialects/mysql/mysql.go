@@ -5,12 +5,16 @@ import (
 	"fmt"
 	"strings"
 
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/database/dialects/generic"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/database/dialects/generic"
 )
 
+// MySQLCore implements generic.Core for MySQL. It quotes identifiers with
+// backticks and uses ? bindings.
 type MySQLCore struct{}
 
+// Identifier returns s quoted as a MySQL identifier. A "*" segment is left
+// unquoted.
 func (*MySQLCore) Identifier(s string) string {
 	if s == "*" {
 		return s
@@ -25,6 +29,8 @@ func (*MySQLCore) Identifier(s string) string {
 	return strings.Join(parts, ".")
 }
 
+// DataType maps a dialects.DataType to a MySQL column type. String defaults to
+// VARCHAR(255) when Size is zero.
 func (*MySQLCore) DataType(t dialects.DataType) string {
 	switch t.Name {
 	case dialects.DataTypeString.Name:
@@ -66,13 +72,19 @@ func (*MySQLCore) DataType(t dialects.DataType) string {
 	return t.Name
 }
 
+// CurrentTime returns the MySQL expression for the current timestamp.
 func (*MySQLCore) CurrentTime() string {
 	return "CURRENT_TIMESTAMP"
 }
+
+// AutoIncrement returns the clause that makes a column an auto-incrementing
+// primary key in MySQL.
 func (*MySQLCore) AutoIncrement() string {
 	return "PRIMARY KEY AUTO_INCREMENT"
 }
 
+// Escape renders v as a SQL literal, doubling embedded single quotes in
+// strings and JSON-marshaling unknown types.
 func (s *MySQLCore) Escape(v any) string {
 	switch v := v.(type) {
 	case string:
@@ -96,18 +108,23 @@ func (s *MySQLCore) Escape(v any) string {
 	}
 }
 
+// Binding returns the MySQL binding placeholder.
 func (*MySQLCore) Binding() string {
 	return "?"
 }
 
+// Features reports the capabilities supported by MySQL. MySQL does not support
+// RETURNING.
 func (s *MySQLCore) Features() dialects.Features {
 	return dialects.Features{}
 }
 
+// New returns a dialect that renders SQL for MySQL.
 func New() dialects.Dialect {
 	return generic.New(&MySQLCore{})
 }
 
+// UseMySql registers the MySQL dialect under the "mysql" driver name.
 func UseMySql() {
 	dialects.Register("mysql", New)
 }

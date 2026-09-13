@@ -5,11 +5,11 @@ import (
 	"io"
 	"testing"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/kernel"
-	"abibby.com/salusa/salusaconfig"
-	"abibby.com/salusa/testing/handlertest"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/di"
+	"gosalusa.com/kernel"
+	"gosalusa.com/salusaconfig"
+	"gosalusa.com/testing/handlertest"
 )
 
 type TestKernel[T salusaconfig.Config] struct {

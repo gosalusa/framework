@@ -3,7 +3,7 @@ package builder
 import (
 	"context"
 
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database/dialects"
 )
 
 // WithContext adds a context to the query that will be used when fetching results.
@@ -11,10 +11,16 @@ func (b *ModelBuilder[T]) WithContext(ctx context.Context) *ModelBuilder[T] {
 	b.builder = b.builder.WithContext(ctx)
 	return b
 }
+
+// ForUpdate adds a FOR UPDATE clause to the query, locking the selected rows
+// until the transaction is committed.
 func (b *ModelBuilder[T]) ForUpdate() *ModelBuilder[T] {
 	b.builder = b.builder.ForUpdate()
 	return b
 }
+
+// ForUpdateSkipLocked adds a FOR UPDATE SKIP LOCKED clause to the query,
+// locking the selected rows while skipping any rows that are already locked.
 func (b *ModelBuilder[T]) ForUpdateSkipLocked() *ModelBuilder[T] {
 	b.builder = b.builder.ForUpdateSkipLocked()
 	return b
@@ -110,37 +116,37 @@ func (b *ModelBuilder[T]) HavingExists(query dialects.QueryBuilder) *ModelBuilde
 	return b
 }
 
-// WhereExists add an exists clause to the query.
+// OrWhereExists add an or exists clause to the query.
 func (b *ModelBuilder[T]) OrWhereExists(query dialects.QueryBuilder) *ModelBuilder[T] {
 	b.builder = b.builder.OrWhereExists(query)
 	return b
 }
 
-// WhereExists add an exists clause to the query.
+// OrHavingExists add an or exists clause to the query.
 func (b *ModelBuilder[T]) OrHavingExists(query dialects.QueryBuilder) *ModelBuilder[T] {
 	b.builder = b.builder.OrHavingExists(query)
 	return b
 }
 
-// WhereExists add an exists clause to the query.
+// WhereNotExists add a not exists clause to the query.
 func (b *ModelBuilder[T]) WhereNotExists(query dialects.QueryBuilder) *ModelBuilder[T] {
 	b.builder = b.builder.WhereNotExists(query)
 	return b
 }
 
-// WhereExists add an exists clause to the query.
+// HavingNotExists add a not exists clause to the query.
 func (b *ModelBuilder[T]) HavingNotExists(query dialects.QueryBuilder) *ModelBuilder[T] {
 	b.builder = b.builder.HavingNotExists(query)
 	return b
 }
 
-// WhereExists add an exists clause to the query.
+// OrWhereNotExists add an or not exists clause to the query.
 func (b *ModelBuilder[T]) OrWhereNotExists(query dialects.QueryBuilder) *ModelBuilder[T] {
 	b.builder = b.builder.OrWhereNotExists(query)
 	return b
 }
 
-// WhereExists add an exists clause to the query.
+// OrHavingNotExists add an or not exists clause to the query.
 func (b *ModelBuilder[T]) OrHavingNotExists(query dialects.QueryBuilder) *ModelBuilder[T] {
 	b.builder = b.builder.OrHavingNotExists(query)
 	return b
@@ -415,6 +421,9 @@ func (b *ModelBuilder[T]) Distinct() *ModelBuilder[T] {
 	b.builder = b.builder.Distinct()
 	return b
 }
+
+// Dump prints the encoded SQL statement for the query to stdout and returns
+// the receiver so it can be used in the middle of a chain.
 func (b *ModelBuilder[T]) Dump() *ModelBuilder[T] {
 	b.builder = b.builder.Dump()
 	return b

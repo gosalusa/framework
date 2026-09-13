@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"testing"
 
-	"abibby.com/salusa/optional"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/optional"
 )
 
 func TestSome(t *testing.T) {

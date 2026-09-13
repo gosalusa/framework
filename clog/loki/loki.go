@@ -4,8 +4,8 @@ import (
 	"log/slog"
 	"net/url"
 
-	"abibby.com/salusa/clog"
 	"github.com/bearsoft-fi/slogloki"
+	"gosalusa.com/clog"
 )
 
 type Config struct {

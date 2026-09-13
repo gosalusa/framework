@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"abibby.com/salusa/event"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/event"
 )
 
 type testEvent struct {

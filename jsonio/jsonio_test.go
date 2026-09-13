@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"abibby.com/salusa/jsonio"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/jsonio"
 )
 
 func closeWriter(t *testing.T, w *jsonio.JsonWriter) {

@@ -6,10 +6,10 @@ import (
 	"strings"
 	"testing"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/email"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gosalusa.com/di"
+	"gosalusa.com/email"
 )
 
 type testConfig struct {

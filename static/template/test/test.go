@@ -4,14 +4,14 @@ import (
 	"context"
 	"log"
 
-	"abibby.com/salusa/database/dbtest"
-	"abibby.com/salusa/database/dialects/sqlite"
-	"abibby.com/salusa/email/emailtest"
-	"abibby.com/salusa/static/template/app"
-	"abibby.com/salusa/static/template/config"
-	"abibby.com/salusa/static/template/migrations"
-	"abibby.com/salusa/testing/kerneltest"
 	"github.com/jmoiron/sqlx"
+	"gosalusa.com/database/dbtest"
+	"gosalusa.com/database/dialects/sqlite"
+	"gosalusa.com/email/emailtest"
+	"gosalusa.com/static/template/app"
+	"gosalusa.com/static/template/config"
+	"gosalusa.com/static/template/migrations"
+	"gosalusa.com/testing/kerneltest"
 	_ "modernc.org/sqlite"
 )
 

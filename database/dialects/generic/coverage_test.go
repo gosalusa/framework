@@ -3,10 +3,10 @@ package generic_test
 import (
 	"testing"
 
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/database/dialects/generic"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/database/dialects/generic"
 )
 
 func TestGeneric_EncodeDeleteQuery(t *testing.T) {

@@ -3,7 +3,7 @@ package builder
 import (
 	"strings"
 
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database/dialects"
 )
 
 func parseColumn(c string) dialects.Column {

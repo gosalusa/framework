@@ -9,18 +9,18 @@ import (
 	"testing"
 	"time"
 
-	"abibby.com/salusa/auth"
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/database/dbtest"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/email/emailtest"
-	"abibby.com/salusa/router"
-	"abibby.com/salusa/router/routertest"
-	"abibby.com/salusa/view"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/auth"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/database/dbtest"
+	"gosalusa.com/database/model"
+	"gosalusa.com/email/emailtest"
+	"gosalusa.com/router"
+	"gosalusa.com/router/routertest"
+	"gosalusa.com/view"
 )
 
 type DevNull struct{}

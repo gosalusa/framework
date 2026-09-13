@@ -3,13 +3,13 @@ package dbpubsub_test
 import (
 	"testing"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/internal/test"
-	"abibby.com/salusa/pubsub"
-	"abibby.com/salusa/pubsub/dbpubsub"
-	"abibby.com/salusa/pubsub/pubsubtest"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database"
+	"gosalusa.com/internal/test"
+	"gosalusa.com/pubsub"
+	"gosalusa.com/pubsub/dbpubsub"
+	"gosalusa.com/pubsub/pubsubtest"
 )
 
 func TestStandard(t *testing.T) {

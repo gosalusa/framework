@@ -3,10 +3,10 @@ package mysql_test
 import (
 	"testing"
 
-	"abibby.com/salusa/database/dialects/mysql"
 	gomysql "github.com/go-sql-driver/mysql"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gosalusa.com/database/dialects/mysql"
 )
 
 func TestSimpleConfig(t *testing.T) {

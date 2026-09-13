@@ -4,8 +4,8 @@ import (
 	"context"
 	"testing"
 
-	"abibby.com/salusa/pubsub"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/pubsub"
 )
 
 func RunStandardTests(t *testing.T, run func(t *testing.T, name string, fn func(*testing.T, pubsub.PubSub))) {

@@ -3,7 +3,7 @@ package email
 import (
 	"context"
 
-	"abibby.com/salusa/di"
+	"gosalusa.com/di"
 )
 
 type Config interface {

@@ -3,10 +3,10 @@ package models
 import (
 	"context"
 
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/database/model/modeldi"
-	"abibby.com/salusa/static/template/app/providers"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/database/model"
+	"gosalusa.com/database/model/modeldi"
+	"gosalusa.com/static/template/app/providers"
 )
 
 //go:generate spice generate:migration

@@ -5,9 +5,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"abibby.com/salusa/spice/util"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gosalusa.com/spice/util"
 )
 
 func TestMigrationName(t *testing.T) {

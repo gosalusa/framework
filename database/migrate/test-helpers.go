@@ -3,8 +3,8 @@ package migrate
 import (
 	"context"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/model"
+	"gosalusa.com/database"
+	"gosalusa.com/database/model"
 )
 
 func MustMigrateModel(db database.DB, m model.Model) {

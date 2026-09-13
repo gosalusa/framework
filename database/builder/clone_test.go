@@ -3,8 +3,8 @@ package builder_test
 import (
 	"testing"
 
-	"abibby.com/salusa/database/builder"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/builder"
 )
 
 func TestBuilder_Clone(t *testing.T) {

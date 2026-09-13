@@ -1,9 +1,11 @@
 package generic
 
 import (
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database/dialects"
 )
 
+// EncodeAlterTableQuery renders q as one or more ALTER TABLE statements,
+// one for each column, foreign key, or index change.
 func (g *Generic) EncodeAlterTableQuery(q *dialects.AlterTableQuery) (dialects.RawQuery, error) {
 	b := newRawQueryBuilder()
 

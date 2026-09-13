@@ -1,6 +1,6 @@
 package builder
 
-import "abibby.com/salusa/database/dialects"
+import "gosalusa.com/database/dialects"
 
 // Where adds a basic where clause to the query.
 func (b *Builder) Where(column, operator string, value any) *Builder {
@@ -86,37 +86,37 @@ func (b *Builder) HavingExists(query dialects.QueryBuilder) *Builder {
 	return b
 }
 
-// WhereExists add an exists clause to the query.
+// OrWhereExists add an or exists clause to the query.
 func (b *Builder) OrWhereExists(query dialects.QueryBuilder) *Builder {
 	b.wheres = b.wheres.OrWhereExists(query)
 	return b
 }
 
-// WhereExists add an exists clause to the query.
+// OrHavingExists add an or exists clause to the query.
 func (b *Builder) OrHavingExists(query dialects.QueryBuilder) *Builder {
 	b.havings = b.havings.OrWhereExists(query)
 	return b
 }
 
-// WhereExists add an exists clause to the query.
+// WhereNotExists add a not exists clause to the query.
 func (b *Builder) WhereNotExists(query dialects.QueryBuilder) *Builder {
 	b.wheres = b.wheres.WhereNotExists(query)
 	return b
 }
 
-// WhereExists add an exists clause to the query.
+// HavingNotExists add a not exists clause to the query.
 func (b *Builder) HavingNotExists(query dialects.QueryBuilder) *Builder {
 	b.havings = b.havings.WhereNotExists(query)
 	return b
 }
 
-// WhereExists add an exists clause to the query.
+// OrWhereNotExists add an or not exists clause to the query.
 func (b *Builder) OrWhereNotExists(query dialects.QueryBuilder) *Builder {
 	b.wheres = b.wheres.OrWhereNotExists(query)
 	return b
 }
 
-// WhereExists add an exists clause to the query.
+// OrHavingNotExists add an or not exists clause to the query.
 func (b *Builder) OrHavingNotExists(query dialects.QueryBuilder) *Builder {
 	b.havings = b.havings.OrWhereNotExists(query)
 	return b

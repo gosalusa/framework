@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"abibby.com/salusa/kernel"
-	"abibby.com/salusa/testing/kerneltest"
+	"gosalusa.com/kernel"
+	"gosalusa.com/testing/kerneltest"
 )
 
 type testConfig struct{}

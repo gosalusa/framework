@@ -4,11 +4,11 @@ import (
 	"context"
 	"testing"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/pubsub"
-	"abibby.com/salusa/pubsub/channelpubsub"
-	"abibby.com/salusa/pubsub/pubsubtest"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/di"
+	"gosalusa.com/pubsub"
+	"gosalusa.com/pubsub/channelpubsub"
+	"gosalusa.com/pubsub/pubsubtest"
 )
 
 func TestStandard(t *testing.T) {

@@ -4,10 +4,10 @@ import (
 	"context"
 	"testing"
 
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/internal/test"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/internal/test"
 )
 
 func TestGet(t *testing.T) {

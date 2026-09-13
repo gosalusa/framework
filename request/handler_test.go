@@ -8,9 +8,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"abibby.com/salusa/request"
 	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/request"
 )
 
 func ExampleHandler_input() {

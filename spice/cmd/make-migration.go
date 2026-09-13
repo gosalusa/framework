@@ -7,10 +7,10 @@ import (
 	"os"
 	"path"
 
-	"abibby.com/salusa/database/migrate"
-	"abibby.com/salusa/spice/pkg"
-	"abibby.com/salusa/spice/util"
 	"github.com/spf13/cobra"
+	"gosalusa.com/database/migrate"
+	"gosalusa.com/spice/pkg"
+	"gosalusa.com/spice/util"
 )
 
 // makeMigrationCmd represents the makeMigration command

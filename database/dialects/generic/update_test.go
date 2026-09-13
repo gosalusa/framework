@@ -3,9 +3,9 @@ package generic_test
 import (
 	"testing"
 
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/database/dialects/generic"
-	"abibby.com/salusa/internal/test"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/database/dialects/generic"
+	"gosalusa.com/internal/test"
 )
 
 func TestGeneric_EncodeUpdateQuery(t *testing.T) {

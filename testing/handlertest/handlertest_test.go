@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"testing"
 
-	"abibby.com/salusa/testing/handlertest"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/testing/handlertest"
 )
 
 func testHandler(w http.ResponseWriter, r *http.Request) {

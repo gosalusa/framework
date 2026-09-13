@@ -9,9 +9,9 @@ import (
 	"path"
 	"text/template"
 
-	"abibby.com/salusa/spice/util"
 	"github.com/spf13/cobra"
 	strcase "github.com/stoewer/go-strcase"
+	"gosalusa.com/spice/util"
 )
 
 //go:embed model.go.tpl

@@ -5,12 +5,12 @@ import (
 	"fmt"
 	"reflect"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/database/hooks"
-	"abibby.com/salusa/internal/helpers"
-	"abibby.com/salusa/internal/relationship"
 	"github.com/jmoiron/sqlx"
+	"gosalusa.com/database"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/database/hooks"
+	"gosalusa.com/internal/helpers"
+	"gosalusa.com/internal/relationship"
 )
 
 var relationshipInterface = reflect.TypeOf((*relationship.Relationship)(nil)).Elem()
@@ -42,12 +42,17 @@ func columnsAndValues(v reflect.Value) map[string]any {
 	return m
 }
 
+// MustSave is like Save but panics if the save fails.
 func MustSave(tx database.DB, v Model) {
 	err := Save(tx, v)
 	if err != nil {
 		panic(err)
 	}
 }
+
+// Save persists the model to the database, inserting a new row or updating the
+// existing one based on whether the model is already in the database. It uses
+// the model's own context when one is available.
 func Save(tx database.DB, v Model) error {
 	ctx := context.Background()
 	if v, ok := v.(Contexter); ok {
@@ -58,12 +63,18 @@ func Save(tx database.DB, v Model) error {
 	}
 	return SaveContext(ctx, tx, v)
 }
+
+// MustSaveContext is like SaveContext but panics if the save fails.
 func MustSaveContext(ctx context.Context, tx database.DB, v Model) {
 	err := SaveContext(ctx, tx, v)
 	if err != nil {
 		panic(err)
 	}
 }
+
+// SaveContext persists the model to the database with the given context,
+// inserting a new row or updating the existing one based on whether the model
+// is already in the database.
 func SaveContext(ctx context.Context, tx database.DB, v Model) error {
 	inDB := v.InDatabase()
 	err := hooks.BeforeSave(ctx, tx, v)
@@ -224,9 +235,14 @@ func update(ctx context.Context, tx database.DB, d dialects.Dialect, v any, m ma
 	return nil
 }
 
+// InsertMany inserts all the models in one statement. Autoincrement primary
+// keys are populated on the caller's copies.
 func InsertMany[T Model](tx database.DB, models []T) error {
 	return InsertManyContext(context.Background(), tx, models)
 }
+
+// InsertManyContext inserts all the models in one statement using the given
+// context. Autoincrement primary keys are populated on the caller's copies.
 func InsertManyContext[T Model](ctx context.Context, tx database.DB, models []T) error {
 	if len(models) == 0 {
 		return nil

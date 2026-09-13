@@ -3,8 +3,8 @@ package builder_test
 import (
 	"testing"
 
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/internal/test"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/internal/test"
 )
 
 func TestGroupBy(t *testing.T) {

@@ -3,14 +3,19 @@ package builder
 import (
 	"context"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/extra/sets"
-	"abibby.com/salusa/internal/helpers"
-	"abibby.com/salusa/internal/relationship"
+	"gosalusa.com/database"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/database/model"
+	"gosalusa.com/extra/sets"
+	"gosalusa.com/internal/helpers"
+	"gosalusa.com/internal/relationship"
 )
 
+// Builder is a query builder that constructs SQL statements without any
+// knowledge of a specific model. It exposes the query operations used by
+// ModelBuilder and can be built up directly, for example to pass a subquery to
+// WhereExists or WhereSubquery.
+//
 //go:generate go run ../../internal/build/build.go
 type Builder struct {
 	query   dialects.SelectQuery
@@ -23,7 +28,7 @@ type Builder struct {
 
 var _ dialects.QueryBuilder = (*Builder)(nil)
 
-// NewBuilder creates a new SubBuilder without anything selected
+// NewBuilder creates a new Builder with no columns selected.
 func NewBuilder() *Builder {
 	return &Builder{
 		query:   dialects.NewSelectQuery(),
@@ -48,7 +53,8 @@ func (b *Builder) Query() *dialects.SelectQuery {
 	return q
 }
 
-// ModelBuilder represents an sql query and any bindings needed to run it.
+// ModelBuilder represents a query bound to a model type T, along with the
+// relationships to eager load and the scopes to apply.
 //
 //go:generate go run ../../internal/build/build.go
 type ModelBuilder[T model.Model] struct {
@@ -57,19 +63,19 @@ type ModelBuilder[T model.Model] struct {
 	withoutScopes sets.Set[string]
 }
 
-// New creates a new Builder with * selected
+// New creates a new query from the model's table with * selected.
 func New[T model.Model]() *ModelBuilder[T] {
 	return NewEmpty[T]().Select("*")
 }
 
-// From creates a new query from the models table and with table.* selected
+// From creates a new query from the model's table and with table.* selected.
 func From[T model.Model]() *ModelBuilder[T] {
 	var m T
 	table := database.GetTable(m)
 	return NewEmpty[T]().Select(table + ".*").From(table)
 }
 
-// NewEmpty creates a new helpers without anything selected
+// NewEmpty creates a new query with nothing selected and without a table set.
 func NewEmpty[T model.Model]() *ModelBuilder[T] {
 	m := helpers.CreateFor[T]().Interface().(T)
 

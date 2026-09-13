@@ -3,10 +3,10 @@ package handlers
 import (
 	"context"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/request"
-	"abibby.com/salusa/static/template/app/models"
 	"github.com/jmoiron/sqlx"
+	"gosalusa.com/database"
+	"gosalusa.com/request"
+	"gosalusa.com/static/template/app/models"
 )
 
 type ListUserRequest struct {

@@ -4,8 +4,8 @@ import (
 	"context"
 	"reflect"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/model"
+	"gosalusa.com/database"
+	"gosalusa.com/database/model"
 )
 
 // # Tags:
@@ -18,6 +18,8 @@ type HasMany[T model.Model] struct {
 
 var _ Relationship = &HasMany[model.Model]{}
 
+// Initialize configures the relationship from the parent model and the struct
+// field that holds it.
 func (r *HasMany[T]) Initialize(parent any, field reflect.StructField) error {
 	r.parent = parent
 	parentKey, err := primaryKeyName(field, "local", parent)
@@ -33,6 +35,8 @@ func (r *HasMany[T]) Initialize(parent any, field reflect.StructField) error {
 	r.relatedKey = relatedKey
 	return nil
 }
+
+// Load fills the related value on each of the relationships in relations.
 func (r *HasMany[T]) Load(ctx context.Context, tx database.DB, relations []Relationship) error {
 	rm, err := r.relatedMap(ctx, tx, relations)
 	if err != nil {

@@ -10,9 +10,18 @@ var (
 	errorType = reflect.TypeFor[error]()
 )
 
+// PrepareFuncCtx returns a new function of type T whose extra parameters are
+// filled from the dependency provider carried by ctx at call time. It is a
+// shorthand for PrepareFunc with a nil provider.
 func PrepareFuncCtx[T any](fn any) T {
 	return PrepareFunc[T](nil, fn)
 }
+
+// PrepareFunc returns a new function of type T built by wrapping fn. fn may
+// accept more parameters than T; any parameters after those in T are filled
+// from dp (or the provider carried by the context passed to the returned
+// function when dp is nil). If a fill error occurs and T does not return an
+// error, the call panics.
 func PrepareFunc[T any](dp *DependencyProvider, fn any) T {
 	t := reflect.TypeFor[T]()
 	vFn := reflect.ValueOf(fn)

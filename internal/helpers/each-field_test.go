@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"abibby.com/salusa/internal/helpers"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/internal/helpers"
 )
 
 func TestEachField(t *testing.T) {

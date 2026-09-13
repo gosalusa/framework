@@ -4,10 +4,10 @@ import (
 	"context"
 	"testing"
 
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/database/model/mixins"
-	"abibby.com/salusa/internal/test"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/database/model/mixins"
+	"gosalusa.com/internal/test"
 )
 
 type ScopeFoo struct {

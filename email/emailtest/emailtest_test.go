@@ -3,9 +3,9 @@ package emailtest_test
 import (
 	"testing"
 
-	"abibby.com/salusa/email"
-	"abibby.com/salusa/email/emailtest"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/email"
+	"gosalusa.com/email/emailtest"
 )
 
 func TestNewTestMailer(t *testing.T) {

@@ -3,8 +3,8 @@ package events
 import (
 	"testing"
 
-	"abibby.com/salusa/event"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/event"
 )
 
 func TestLogEventType(t *testing.T) {

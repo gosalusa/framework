@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	"abibby.com/salusa/request"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/request"
 )
 
 func TestHandlerRun(t *testing.T) {

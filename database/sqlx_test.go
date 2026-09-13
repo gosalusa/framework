@@ -7,11 +7,11 @@ import (
 	"sync"
 	"testing"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/dialects/sqlite"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gosalusa.com/database"
+	"gosalusa.com/database/dialects/sqlite"
 )
 
 type fakeDB struct {

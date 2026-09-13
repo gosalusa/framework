@@ -8,10 +8,10 @@ import (
 	"reflect"
 	"strings"
 
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/internal/helpers"
-	"abibby.com/salusa/salusaconfig"
+	"gosalusa.com/database/model"
+	"gosalusa.com/di"
+	"gosalusa.com/internal/helpers"
+	"gosalusa.com/salusaconfig"
 )
 
 type URLResolver interface {

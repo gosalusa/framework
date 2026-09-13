@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	"abibby.com/salusa/request/rules"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/request/rules"
 )
 
 type testValidator struct {

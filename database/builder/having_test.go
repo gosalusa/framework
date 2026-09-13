@@ -3,9 +3,9 @@ package builder_test
 import (
 	"testing"
 
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/internal/test"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/internal/test"
 )
 
 func TestHaving(t *testing.T) {

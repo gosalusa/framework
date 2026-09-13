@@ -4,11 +4,11 @@ import (
 	"context"
 	"testing"
 
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/database/schema"
-	"abibby.com/salusa/internal/test"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/database/schema"
+	"gosalusa.com/internal/test"
 )
 
 func TestBuilder(t *testing.T) {
@@ -43,7 +43,8 @@ func TestBuilder(t *testing.T) {
 				table.String("bar").Size(100)
 			}),
 			ExpectedSQLite:     `CREATE TABLE "foo" ("id" INTEGER NOT NULL, "bar" TEXT NOT NULL);`,
-			ExpectedPostgreSQL: `CREATE TABLE "foo" ("id" INTEGER NOT NULL, "bar" VARCHAR(100) NOT NULL);`,
+			ExpectedPostgreSQL: `CREATE TABLE "foo" ("id" INTEGER NOT NULL, "bar" TEXT NOT NULL);`,
+			ExpectedMySQL:      "CREATE TABLE `foo` (`id` INT NOT NULL, `bar` VARCHAR(100) NOT NULL);",
 			ExpectedBindings:   []any{},
 		},
 		{

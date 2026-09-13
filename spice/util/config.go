@@ -10,8 +10,8 @@ import (
 	"reflect"
 	"strings"
 
-	"abibby.com/salusa/stream"
 	"gopkg.in/yaml.v3"
+	"gosalusa.com/stream"
 )
 
 type Package struct {

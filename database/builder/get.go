@@ -7,23 +7,27 @@ import (
 	"fmt"
 	"reflect"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/database/hooks"
-	"abibby.com/salusa/internal/helpers"
-	"abibby.com/salusa/internal/relationship"
 	"github.com/jmoiron/sqlx"
+	"gosalusa.com/database"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/database/hooks"
+	"gosalusa.com/internal/helpers"
+	"gosalusa.com/internal/relationship"
 )
 
+// QueryError wraps an error with the SQL statement that produced it.
 type QueryError struct {
 	err   error
 	query string
 }
 
+// Error returns a string describing the failed query and the underlying error.
 func (e *QueryError) Error() string {
 	return fmt.Sprintf("%s: %v", e.query, e.err)
 }
 
+// Unwrap returns the underlying error so it can be inspected with errors.Is
+// and errors.As.
 func (e *QueryError) Unwrap() error {
 	return e.err
 }
@@ -49,7 +53,8 @@ func (b *ModelBuilder[T]) Get(tx database.DB) ([]T, error) {
 	return v, nil
 }
 
-// Get executes the query as a select statement and returns the first record.
+// First executes the query as a select statement and returns the first record,
+// or the zero value of T if no records match.
 func (b *ModelBuilder[T]) First(tx database.DB) (T, error) {
 	v, err := b.Clone().
 		Limit(1).
@@ -142,6 +147,8 @@ func load(ctx context.Context, tx database.DB, r dialects.RawQuery, v any) (err 
 	return nil
 }
 
+// Each iterates over the results of the query in chunks, calling cb for every
+// record.
 func (b *ModelBuilder[T]) Each(tx database.DB, cb func(v T) error) error {
 	return b.Chunk(tx, func(models []T) error {
 		for _, model := range models {
@@ -154,9 +161,14 @@ func (b *ModelBuilder[T]) Each(tx database.DB, cb func(v T) error) error {
 	})
 }
 
+// Chunk iterates over the results of the query in batches of 1000 records,
+// calling cb for each batch.
 func (b *ModelBuilder[T]) Chunk(tx database.DB, cb func(v []T) error) error {
 	return b.ChunkN(tx, 1000, cb)
 }
+
+// ChunkN iterates over the results of the query in batches of limit records,
+// calling cb for each batch.
 func (b *ModelBuilder[T]) ChunkN(tx database.DB, limit int, cb func(v []T) error) error {
 	offset := 0
 	for {

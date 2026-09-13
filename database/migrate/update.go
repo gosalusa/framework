@@ -3,10 +3,10 @@ package migrate
 import (
 	"fmt"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/database/schema"
-	"abibby.com/salusa/internal/relationship"
+	"gosalusa.com/database"
+	"gosalusa.com/database/model"
+	"gosalusa.com/database/schema"
+	"gosalusa.com/internal/relationship"
 )
 
 var (

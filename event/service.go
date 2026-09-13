@@ -6,10 +6,10 @@ import (
 	"reflect"
 	"time"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/internal/helpers"
-	"abibby.com/salusa/kernel"
-	"abibby.com/salusa/pubsub"
+	"gosalusa.com/di"
+	"gosalusa.com/internal/helpers"
+	"gosalusa.com/kernel"
+	"gosalusa.com/pubsub"
 )
 
 type Handler[E Event] interface {

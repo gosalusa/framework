@@ -8,11 +8,11 @@ import (
 	"os/exec"
 	"testing"
 
-	"abibby.com/salusa/kernel"
-	"abibby.com/salusa/router"
-	"abibby.com/salusa/static/template/app"
 	"github.com/spf13/pflag"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/kernel"
+	"gosalusa.com/router"
+	"gosalusa.com/static/template/app"
 )
 
 type mainTestConfig struct{}

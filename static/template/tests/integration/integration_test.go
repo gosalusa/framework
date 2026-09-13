@@ -3,7 +3,7 @@ package integration_test
 import (
 	"testing"
 
-	"abibby.com/salusa/static/template/test"
+	"gosalusa.com/static/template/test"
 )
 
 func TestIntegration(t *testing.T) {

@@ -10,10 +10,10 @@ import (
 	"log/slog"
 	"net/http"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/request"
-	"abibby.com/salusa/router"
 	"github.com/davecgh/go-spew/spew"
+	"gosalusa.com/di"
+	"gosalusa.com/request"
+	"gosalusa.com/router"
 )
 
 type ViewTemplate struct {

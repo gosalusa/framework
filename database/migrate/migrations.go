@@ -6,14 +6,14 @@ import (
 	"log/slog"
 	"sort"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/database/schema"
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/extra/sets"
 	"github.com/jmoiron/sqlx"
+	"gosalusa.com/database"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/database/model"
+	"gosalusa.com/database/schema"
+	"gosalusa.com/di"
+	"gosalusa.com/extra/sets"
 )
 
 type DBMigration struct {
@@ -99,7 +99,7 @@ func (m *Migrations) Blueprint(tableName string) *schema.Blueprint {
 
 func (m *Migrations) Up(ctx context.Context, db database.DB) error {
 	q := schema.Create(m.table, func(b *schema.Blueprint) {
-		b.String("name")
+		b.String("name").Primary()
 		b.Bool("run")
 	}).IfNotExists()
 

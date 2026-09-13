@@ -3,10 +3,10 @@ package routes_test
 import (
 	"testing"
 
-	"abibby.com/salusa/router"
-	"abibby.com/salusa/static/template/routes"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gosalusa.com/router"
+	"gosalusa.com/static/template/routes"
 )
 
 func TestInitRoutes(t *testing.T) {

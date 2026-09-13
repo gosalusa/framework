@@ -1,4 +1,4 @@
-module abibby.com/salusa
+module gosalusa.com
 
 go 1.27.0
 

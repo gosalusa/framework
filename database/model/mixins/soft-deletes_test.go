@@ -3,12 +3,12 @@ package mixins_test
 import (
 	"testing"
 
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/database/model/mixins"
-	"abibby.com/salusa/internal/test"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/database/model"
+	"gosalusa.com/database/model/mixins"
+	"gosalusa.com/internal/test"
 )
 
 func TestSoftDeletes(t *testing.T) {

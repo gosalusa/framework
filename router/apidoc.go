@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	"abibby.com/salusa/openapidoc"
 	"github.com/go-openapi/spec"
+	"gosalusa.com/openapidoc"
 )
 
 var _ openapidoc.Pathser = (*Router)(nil)

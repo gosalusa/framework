@@ -3,8 +3,8 @@ package channelpubsub
 import (
 	"context"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/pubsub"
+	"gosalusa.com/di"
+	"gosalusa.com/pubsub"
 )
 
 func Register(ctx context.Context) {

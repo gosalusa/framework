@@ -4,7 +4,7 @@ import (
 	"context"
 	"log/slog"
 
-	"abibby.com/salusa/static/template/app/events"
+	"gosalusa.com/static/template/app/events"
 )
 
 type LogJob struct {

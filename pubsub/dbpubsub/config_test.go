@@ -3,13 +3,13 @@ package dbpubsub_test
 import (
 	"testing"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/internal/test"
-	"abibby.com/salusa/pubsub"
-	"abibby.com/salusa/pubsub/dbpubsub"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database"
+	"gosalusa.com/di"
+	"gosalusa.com/internal/test"
+	"gosalusa.com/pubsub"
+	"gosalusa.com/pubsub/dbpubsub"
 )
 
 type registerDeps struct {

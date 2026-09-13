@@ -6,6 +6,8 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// Config describes how to connect to a PostgreSQL database. DisableSSL opts
+// out of SSL.
 type Config struct {
 	Username   string
 	Password   string
@@ -14,9 +16,12 @@ type Config struct {
 	DisableSSL bool
 }
 
+// DriverName returns the database driver name, "postgres".
 func (c *Config) DriverName() string {
 	return "postgres"
 }
+
+// DataSourceName returns the key=value DSN used to connect to the database.
 func (c *Config) DataSourceName() string {
 	ssl := ""
 	if c.DisableSSL {

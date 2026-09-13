@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"testing"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/database/hooks"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/internal/test"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/database/hooks"
+	"gosalusa.com/database/model"
+	"gosalusa.com/internal/test"
 )
 
 type FakeModel struct {

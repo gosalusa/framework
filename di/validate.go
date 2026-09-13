@@ -6,16 +6,22 @@ import (
 	"fmt"
 	"reflect"
 
-	"abibby.com/salusa/internal/helpers"
-	"abibby.com/salusa/validate"
 	"github.com/dominikbraun/graph"
+	"gosalusa.com/internal/helpers"
+	"gosalusa.com/validate"
 )
 
 var (
-	ErrDependancyCycle   = errors.New("dependancy cycle")
+	// ErrDependancyCycle is returned when a set of factories depends on
+	// itself, directly or transitively.
+	ErrDependancyCycle = errors.New("dependancy cycle")
+	// ErrMissingDependancy is returned when a factory or inject field requires
+	// a dependency that is not registered.
 	ErrMissingDependancy = errors.New("missing dependancy")
 )
 
+// DIValidator checks that every inject field on a struct has a registered
+// factory. It implements validate.Validator.
 type DIValidator struct {
 	dp  *DependencyProvider
 	typ reflect.Type
@@ -23,6 +29,8 @@ type DIValidator struct {
 
 var _ validate.Validator = (*DIValidator)(nil)
 
+// Validate returns an error joining ErrMissingDependancy for every inject
+// field of the validator's struct whose type has no registered factory.
 func (v *DIValidator) Validate(ctx context.Context) error {
 	errs := []error{}
 	t := v.typ
@@ -56,9 +64,14 @@ func (v *DIValidator) Validate(ctx context.Context) error {
 	return errors.Join(errs...)
 }
 
+// Validator returns a DIValidator for rootType using the dependency provider
+// carried by ctx.
 func Validator(ctx context.Context, rootType reflect.Type) *DIValidator {
 	return GetDependencyProvider(ctx).Validator(rootType)
 }
+
+// Validator returns a DIValidator for rootType validated against this
+// provider.
 func (dp *DependencyProvider) Validator(rootType reflect.Type) *DIValidator {
 	return &DIValidator{
 		dp:  dp,
@@ -66,6 +79,9 @@ func (dp *DependencyProvider) Validator(rootType reflect.Type) *DIValidator {
 	}
 }
 
+// Validate checks the registered factories for dependency cycles. A missing
+// dependency in a With factory is reported as an error wrapping
+// ErrMissingDependancy, and a cycle as an error wrapping ErrDependancyCycle.
 func (dp *DependencyProvider) Validate(ctx context.Context) error {
 	errs := []error{}
 

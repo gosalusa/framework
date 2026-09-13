@@ -12,19 +12,19 @@ import (
 	"strings"
 	"time"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/builder"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/email"
-	"abibby.com/salusa/internal/helpers"
-	"abibby.com/salusa/request"
-	"abibby.com/salusa/router"
-	"abibby.com/salusa/view"
 	"github.com/go-openapi/spec"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"golang.org/x/crypto/bcrypt"
+	"gosalusa.com/database"
+	"gosalusa.com/database/builder"
+	"gosalusa.com/database/model"
+	"gosalusa.com/email"
+	"gosalusa.com/internal/helpers"
+	"gosalusa.com/request"
+	"gosalusa.com/router"
+	"gosalusa.com/view"
 )
 
 var (

@@ -3,9 +3,11 @@ package schema
 import (
 	"fmt"
 
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database/dialects"
 )
 
+// IndexBuilder describes an index on a table. Create one with
+// [Blueprint.Index] and chain AddColumn, and optionally Unique, on it.
 type IndexBuilder struct {
 	table   string
 	name    string
@@ -20,16 +22,20 @@ func newIndexBuilder(table string) *IndexBuilder {
 	}
 }
 
+// AddColumn adds a column to the index.
 func (b *IndexBuilder) AddColumn(c string) *IndexBuilder {
 	b.columns = append(b.columns, c)
 	return b
 }
 
+// Unique makes the index enforce uniqueness.
 func (b *IndexBuilder) Unique() *IndexBuilder {
 	b.unique = true
 	return b
 }
 
+// Index converts the builder into its dialects.Index representation that a
+// dialect encodes into SQL.
 func (b *IndexBuilder) Index() *dialects.Index {
 	return &dialects.Index{
 		Table:   b.table,
@@ -39,6 +45,7 @@ func (b *IndexBuilder) Index() *dialects.Index {
 	}
 }
 
+// GoString renders the index's modifiers as a chain of Go method calls.
 func (b *IndexBuilder) GoString() string {
 	src := ""
 	for _, c := range b.columns {

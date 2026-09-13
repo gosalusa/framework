@@ -3,8 +3,8 @@ package env_test
 import (
 	"testing"
 
-	"abibby.com/salusa/env"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/env"
 )
 
 func TestString(t *testing.T) {

@@ -12,8 +12,8 @@ import (
 	"path"
 	"strings"
 
-	"abibby.com/salusa/static"
 	"github.com/spf13/cobra"
+	"gosalusa.com/static"
 )
 
 // initCmd represents the init command
@@ -83,7 +83,7 @@ func copyDir(root fs.FS, src, dist, pkgPath string) error {
 			if err != nil {
 				return err
 			}
-			b = bytes.ReplaceAll(b, []byte("abibby.com/salusa/static/template"), []byte(pkgPath))
+			b = bytes.ReplaceAll(b, []byte("gosalusa.com/static/template"), []byte(pkgPath))
 
 			err = os.WriteFile(distPath, b, 0644)
 			if err != nil {

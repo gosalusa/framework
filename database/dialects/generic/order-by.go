@@ -3,9 +3,11 @@ package generic
 import (
 	"strings"
 
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database/dialects"
 )
 
+// EncodeOrderBy renders the ORDER BY clause of a query, or nothing if there
+// are no order columns.
 func (g *Generic) EncodeOrderBy(orderBys []dialects.OrderColumn) (dialects.RawQuery, error) {
 	if len(orderBys) == 0 {
 		return dialects.RawQuery{}, nil

@@ -3,9 +3,9 @@ package router_test
 import (
 	"testing"
 
-	"abibby.com/salusa/internal/test"
-	"abibby.com/salusa/router"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/internal/test"
+	"gosalusa.com/router"
 )
 
 func TestToAttrs(t *testing.T) {

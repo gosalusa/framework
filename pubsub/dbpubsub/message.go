@@ -6,11 +6,11 @@ import (
 	"strconv"
 	"time"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/internal/helpers"
-	"abibby.com/salusa/pubsub"
 	"github.com/jmoiron/sqlx"
+	"gosalusa.com/database"
+	"gosalusa.com/database/model"
+	"gosalusa.com/internal/helpers"
+	"gosalusa.com/pubsub"
 )
 
 var ErrMessageFinished = errors.New("message finished")

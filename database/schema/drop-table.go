@@ -3,15 +3,18 @@ package schema
 import (
 	"context"
 
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database"
+	"gosalusa.com/database/dialects"
 )
 
+// Drop returns a Runner that drops the named table.
 func Drop(table string) Runner {
 	return Run(func(ctx context.Context, tx database.DB) error {
 		return runDropTable(ctx, tx, &dialects.DropTableQuery{Table: table})
 	})
 }
+
+// DropIfExists returns a Runner that drops the named table if it exists.
 func DropIfExists(table string) Runner {
 	return Run(func(ctx context.Context, tx database.DB) error {
 		return runDropTable(ctx, tx, &dialects.DropTableQuery{Table: table, IfExists: true})

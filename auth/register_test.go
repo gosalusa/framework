@@ -3,15 +3,15 @@ package auth_test
 import (
 	"testing"
 
-	"abibby.com/salusa/auth"
-	"abibby.com/salusa/database"
-	"abibby.com/salusa/database/migrate"
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/di"
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/auth"
+	"gosalusa.com/database"
+	"gosalusa.com/database/migrate"
+	"gosalusa.com/database/model"
+	"gosalusa.com/di"
 )
 
 func TestRegister(t *testing.T) {

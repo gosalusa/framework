@@ -1,9 +1,11 @@
 package generic
 
 import (
-	"abibby.com/salusa/database/dialects"
+	"gosalusa.com/database/dialects"
 )
 
+// EncodeSelects renders the columns of a SELECT clause, prefixing DISTINCT
+// when set.
 func (g *Generic) EncodeSelects(s *dialects.Select) (dialects.RawQuery, error) {
 	if len(s.Columns) == 0 {
 		return dialects.RawQuery{
@@ -29,12 +31,16 @@ func (g *Generic) EncodeSelects(s *dialects.Select) (dialects.RawQuery, error) {
 	return b.Build()
 }
 
+// EncodeFunctionCall renders a function applied to its arguments, such as
+// count(*).
 func (g *Generic) EncodeFunctionCall(fc *dialects.FunctionCall) (dialects.RawQuery, error) {
 	return newRawQueryBuilder().
 		AddString(fc.Name + "(" + g.core.Identifier(fc.Arguments) + ")").
 		Build()
 }
 
+// EncodeColumn renders a single selectable expression: a column name, a
+// function call, a subquery, or raw SQL, with an optional AS alias.
 func (g *Generic) EncodeColumn(c *dialects.Column) (dialects.RawQuery, error) {
 	if c.Raw != "" {
 		return dialects.Raw(c.Raw), nil

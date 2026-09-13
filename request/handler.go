@@ -8,10 +8,10 @@ import (
 	"net/http"
 	"reflect"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/internal/helpers"
-	"abibby.com/salusa/validate"
 	"github.com/go-openapi/spec"
+	"gosalusa.com/di"
+	"gosalusa.com/internal/helpers"
+	"gosalusa.com/validate"
 )
 
 type RequestHandler[TRequest, TResponse any] struct {

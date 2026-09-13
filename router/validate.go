@@ -3,7 +3,7 @@ package router
 import (
 	"context"
 
-	"abibby.com/salusa/validate"
+	"gosalusa.com/validate"
 )
 
 func (r *Router) Validate(ctx context.Context) error {

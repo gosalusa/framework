@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	"abibby.com/salusa/di"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/di"
 )
 
 func TestRegister(t *testing.T) {

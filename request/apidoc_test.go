@@ -4,10 +4,10 @@ import (
 	"context"
 	"testing"
 
-	"abibby.com/salusa/database/model"
-	"abibby.com/salusa/openapidoc"
 	"github.com/go-openapi/spec"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/model"
+	"gosalusa.com/openapidoc"
 )
 
 type apiTestModel struct {

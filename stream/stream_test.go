@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"iter"
 	"testing"
+	"unsafe"
 
 	"github.com/go-openapi/testify/v2/assert"
 )
@@ -87,6 +88,13 @@ func TestStream_Chain_FlatMapFilterLimit(t *testing.T) {
 		Limit(2).
 		Slice()
 	assert.Equal(t, []int{10, 20}, s)
+}
+
+func TestStream_Of_SliceSameInstance(t *testing.T) {
+	source := []int{1, 2, 3}
+	s := Of(source).Slice()
+
+	assert.True(t, unsafe.SliceData(source) == unsafe.SliceData(s), "source and result slices do not point to the same object")
 }
 
 func ExampleStream() {

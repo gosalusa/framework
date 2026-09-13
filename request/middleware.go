@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"abibby.com/salusa/router"
+	"gosalusa.com/router"
 )
 
 type errorContextType uint8

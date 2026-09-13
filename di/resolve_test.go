@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"testing"
 
-	"abibby.com/salusa/di"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/di"
 )
 
 type Generic[T any] func(value T) T

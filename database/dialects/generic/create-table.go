@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"strings"
 
-	"abibby.com/salusa/database/dialects"
-	"abibby.com/salusa/stream"
+	"gosalusa.com/database/dialects"
+	"gosalusa.com/stream"
 )
 
+// EncodeCreateTableQuery renders q as a CREATE TABLE statement followed by any
+// index statements.
 func (g *Generic) EncodeCreateTableQuery(q *dialects.CreateTableQuery) (dialects.RawQuery, error) {
 	b := newRawQueryBuilder().AddString("CREATE")
 	if q.Temporary {
@@ -52,6 +54,8 @@ func (g *Generic) EncodeCreateTableQuery(q *dialects.CreateTableQuery) (dialects
 	return b.Build()
 }
 
+// EncodeColumnDefinition renders a single column definition with its data type
+// and constraints.
 func (g *Generic) EncodeColumnDefinition(c *dialects.ColumnDefinition) (dialects.RawQuery, error) {
 	r := newRawQueryBuilder()
 	r.AddString(g.core.Identifier(c.Name))
@@ -78,6 +82,8 @@ func (g *Generic) EncodeColumnDefinition(c *dialects.ColumnDefinition) (dialects
 	}
 	return r.Build()
 }
+
+// EncodeForeignKey renders a CONSTRAINT ... FOREIGN KEY clause.
 func (g *Generic) EncodeForeignKey(f *dialects.ForeignKey) (dialects.RawQuery, error) {
 	return dialects.Raw(fmt.Sprintf("CONSTRAINT %s FOREIGN KEY (%s) REFERENCES %s (%s)",
 		g.core.Identifier(f.Name),

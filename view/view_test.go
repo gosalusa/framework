@@ -10,11 +10,11 @@ import (
 	"testing"
 	"testing/fstest"
 
-	"abibby.com/salusa/di"
-	"abibby.com/salusa/router"
-	"abibby.com/salusa/view"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+	"gosalusa.com/di"
+	"gosalusa.com/router"
+	"gosalusa.com/view"
 )
 
 func testFS() fs.FS {

@@ -4,8 +4,8 @@ import (
 	"errors"
 	"testing"
 
-	"abibby.com/salusa/database/dialects"
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/database/dialects"
 )
 
 func TestRawQueryBuilder(t *testing.T) {
