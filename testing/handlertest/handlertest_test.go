@@ -9,6 +9,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"gosalusa.com/testing/handlertest"
+	"gosalusa.com/testing/match"
 )
 
 func testHandler(w http.ResponseWriter, r *http.Request) {
@@ -38,7 +39,7 @@ func TestHandlerTest(t *testing.T) {
 	handlertest.New(ctx, t, h).
 		Get("/test").
 		AssertJSONString(responseBody).
-		AssertJSONContains("foo.bar", 1.0)
+		AssertJSONContains("foo.bar", match.Equal(1.0))
 }
 
 func TestRequestBuilderMethods(t *testing.T) {
@@ -175,7 +176,7 @@ func TestAssertions(t *testing.T) {
 	t.Run("json contains", func(t *testing.T) {
 		handlertest.New(context.Background(), t, http.HandlerFunc(testHandler)).
 			Get("/x").
-			AssertJSONContains("foo.bar", 1.0)
+			AssertJSONContains("foo.bar", match.Equal(1.0))
 	})
 
 	t.Run("with header", func(t *testing.T) {

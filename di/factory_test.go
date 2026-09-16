@@ -28,7 +28,7 @@ func TestFactories(t *testing.T) {
 	expectedError := fmt.Errorf("expected error")
 
 	registeredStruct := &Struct{}
-	dp.Register(di.NewSingletonFactory(registeredStruct))
+	dp.RegisterFactory(di.NewSingletonFactory(registeredStruct))
 
 	factories := []FactoryFactory{
 		{

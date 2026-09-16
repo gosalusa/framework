@@ -52,12 +52,12 @@ func NewDependencyProvider() *DependencyProvider {
 	dp := &DependencyProvider{
 		factories: &maps.Sync[reflect.Type, Factory]{},
 	}
-	dp.Register(NewFactoryFunc(func(ctx context.Context, tag string) (context.Context, error) {
+	dp.Register(func(ctx context.Context, tag string) (context.Context, error) {
 		return ctx, nil
-	}))
-	dp.Register(NewFactoryFunc(func(ctx context.Context, tag string) (*DependencyProvider, error) {
+	})
+	dp.Register(func(ctx context.Context, tag string) (*DependencyProvider, error) {
 		return dp, nil
-	}))
+	})
 	return dp
 }
 
