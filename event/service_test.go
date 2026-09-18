@@ -244,7 +244,9 @@ func TestHandler(t *testing.T) {
 
 	t.Run("run fillable", func(t *testing.T) {
 		dp := di.NewDependencyProvider()
-		dp.Register(di.NewSingletonFactory(&testDep{V: 7}))
+		dp.RegisterSingleton(func() *testDep {
+			return &testDep{V: 7}
+		})
 		h := &handler[*TestEvent1]{
 			value:       &TestEvent1{Foo: "bar"},
 			handlerType: reflect.TypeFor[*testFillableHandler](),

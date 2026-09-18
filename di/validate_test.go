@@ -21,10 +21,10 @@ func TestDependencyProvider_Validate(t *testing.T) {
 			String string `inject:""`
 		}
 		dp := di.NewDependencyProvider()
-		dp.Register(&di.SingletonFactory[float64]{})
-		dp.Register(&di.LazySingletonWithFactory[string, *WithFloat]{})
-		dp.Register(&di.LazySingletonWithFactory[int, *WithString]{})
-		dp.Register(&di.LazySingletonWithFactory[uint, *WithInt]{})
+		dp.RegisterFactory(&di.SingletonFactory[float64]{})
+		dp.RegisterFactory(&di.LazySingletonWithFactory[string, *WithFloat]{})
+		dp.RegisterFactory(&di.LazySingletonWithFactory[int, *WithString]{})
+		dp.RegisterFactory(&di.LazySingletonWithFactory[uint, *WithInt]{})
 
 		ctx := context.Background()
 
@@ -37,7 +37,7 @@ func TestDependencyProvider_Validate(t *testing.T) {
 			Float float64 `inject:""`
 		}
 		dp := di.NewDependencyProvider()
-		dp.Register(&di.LazySingletonWithFactory[string, *WithFloat]{})
+		dp.RegisterFactory(&di.LazySingletonWithFactory[string, *WithFloat]{})
 
 		ctx := context.Background()
 
@@ -47,9 +47,9 @@ func TestDependencyProvider_Validate(t *testing.T) {
 
 	t.Run("cycle", func(t *testing.T) {
 		dp := di.NewDependencyProvider()
-		dp.Register(&di.LazySingletonWithFactory[int, float64]{})
-		dp.Register(&di.LazySingletonWithFactory[float64, string]{})
-		dp.Register(&di.LazySingletonWithFactory[string, int]{})
+		dp.RegisterFactory(&di.LazySingletonWithFactory[int, float64]{})
+		dp.RegisterFactory(&di.LazySingletonWithFactory[float64, string]{})
+		dp.RegisterFactory(&di.LazySingletonWithFactory[string, int]{})
 
 		ctx := context.Background()
 
@@ -68,9 +68,9 @@ func TestDependencyProvider_Validate(t *testing.T) {
 			String string `inject:""`
 		}
 		dp := di.NewDependencyProvider()
-		dp.Register(&di.LazySingletonWithFactory[int, *WithFloat]{})
-		dp.Register(&di.LazySingletonWithFactory[float64, *WithString]{})
-		dp.Register(&di.LazySingletonWithFactory[string, *WithInt]{})
+		dp.RegisterFactory(&di.LazySingletonWithFactory[int, *WithFloat]{})
+		dp.RegisterFactory(&di.LazySingletonWithFactory[float64, *WithString]{})
+		dp.RegisterFactory(&di.LazySingletonWithFactory[string, *WithInt]{})
 
 		ctx := context.Background()
 

@@ -242,7 +242,7 @@ func TestSingletons(t *testing.T) {
 
 	t.Run("dependency provider", func(t *testing.T) {
 		dp := di.NewDependencyProvider()
-		dp.Register(di.NewSingletonFactory(&Struct{}))
+		dp.RegisterFactory(di.NewSingletonFactory(&Struct{}))
 
 		singletons := dp.Singletons()
 		assert.Len(t, singletons, 1)

@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"gosalusa.com/testing/match"
 )
 
 type HttpResult struct {
@@ -95,7 +96,7 @@ func (r *HttpResult) AssertJSONString(jsonBody string) *HttpResult {
 	}
 	return r.AssertJSON(expected)
 }
-func (r *HttpResult) AssertJSON(expected any) *HttpResult {
+func (r *HttpResult) AssertJSON[T any](expected T) *HttpResult {
 	r.t.Helper()
 	acctual, ok := r.getUnmarshaledBody()
 	if !ok {
@@ -105,7 +106,7 @@ func (r *HttpResult) AssertJSON(expected any) *HttpResult {
 	return r
 }
 
-func (r *HttpResult) AssertJSONContains(path string, expected any) *HttpResult {
+func (r *HttpResult) AssertJSONContains(path string, expected match.Matcher) *HttpResult {
 	r.t.Helper()
 	body, ok := r.getUnmarshaledBody()
 	if !ok {
@@ -118,7 +119,10 @@ func (r *HttpResult) AssertJSONContains(path string, expected any) *HttpResult {
 		return r
 	}
 
-	assert.Equal(r.t, expected, acctual, "JSON value does not match")
+	res := expected.Matches(acctual)
+	if !res.Matches {
+		assert.Fail(r.t, "JSON value does not match", res.Description)
+	}
 
 	return r
 }
