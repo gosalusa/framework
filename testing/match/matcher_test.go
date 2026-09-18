@@ -81,6 +81,30 @@ func TestSame(t *testing.T) {
 			Value:   "a",
 			Result:  match.Result{Matches: false, Description: "Not equal: \nexpected: \"b\"\nactual  : \"a\""},
 		},
+		{
+			Name:    "Greater pass",
+			Matcher: match.Greater(5),
+			Value:   6,
+			Result:  match.Result{Matches: true},
+		},
+		{
+			Name:    "Greater fail",
+			Matcher: match.Greater(1),
+			Value:   1,
+			Result:  match.Result{Matches: false, Description: "1 is not greater than 1"},
+		},
+		{
+			Name:    "Less pass",
+			Matcher: match.Less(5),
+			Value:   4,
+			Result:  match.Result{Matches: true},
+		},
+		{
+			Name:    "Less fail",
+			Matcher: match.Less(1),
+			Value:   1,
+			Result:  match.Result{Matches: false, Description: "1 is not less than 1"},
+		},
 	}
 
 	for _, tc := range tcs {

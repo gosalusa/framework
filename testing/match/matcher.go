@@ -1,6 +1,7 @@
 package match
 
 import (
+	"cmp"
 	"fmt"
 
 	"github.com/go-openapi/testify/v2/assert"
@@ -63,6 +64,70 @@ func Len(length int) Matcher {
 		}
 
 		return Result{Matches: true}
+	})
+}
+
+func Greater[T cmp.Ordered](value T) Matcher {
+	return MatcherFunc(func(actual any) Result {
+		if actual, ok := actual.(T); ok {
+			if actual > value {
+				return Result{Matches: true}
+			}
+		}
+
+		valueStr, actualStr := formatUnequalValues(value, actual)
+		return Result{
+			Matches:     false,
+			Description: fmt.Sprintf("%s is not greater than %s", valueStr, actualStr),
+		}
+	})
+}
+
+func GreaterOrEqual[T cmp.Ordered](value T) Matcher {
+	return MatcherFunc(func(actual any) Result {
+		if actual, ok := actual.(T); ok {
+			if actual >= value {
+				return Result{Matches: true}
+			}
+		}
+
+		valueStr, actualStr := formatUnequalValues(value, actual)
+		return Result{
+			Matches:     false,
+			Description: fmt.Sprintf("%s is not greater than or equal to %s", valueStr, actualStr),
+		}
+	})
+}
+
+func Less[T cmp.Ordered](value T) Matcher {
+	return MatcherFunc(func(actual any) Result {
+		if actual, ok := actual.(T); ok {
+			if actual < value {
+				return Result{Matches: true}
+			}
+		}
+
+		valueStr, actualStr := formatUnequalValues(value, actual)
+		return Result{
+			Matches:     false,
+			Description: fmt.Sprintf("%s is not less than %s", valueStr, actualStr),
+		}
+	})
+}
+
+func LessOrEqual[T cmp.Ordered](value T) Matcher {
+	return MatcherFunc(func(actual any) Result {
+		if actual, ok := actual.(T); ok {
+			if actual <= value {
+				return Result{Matches: true}
+			}
+		}
+
+		valueStr, actualStr := formatUnequalValues(value, actual)
+		return Result{
+			Matches:     false,
+			Description: fmt.Sprintf("%s is not less than or equal to %s", valueStr, actualStr),
+		}
 	})
 }
 
