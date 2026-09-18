@@ -11,7 +11,7 @@ type TestCase struct {
 	Name    string
 	Matcher match.Matcher
 	Value   any
-	match.Result
+	Result  match.Result
 }
 
 var ptrA = new(1)
