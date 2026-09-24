@@ -215,8 +215,8 @@ func TestGeneric_EncodeSelectsEmpty(t *testing.T) {
 func TestGeneric_EncodeOrderByDesc(t *testing.T) {
 	g := generic.New(&testCore{})
 	r, err := g.EncodeOrderBy([]dialects.OrderColumn{
-		{Column: "a"},
-		{Column: "b", Descending: true},
+		{Column: dialects.Column{Column: "a"}},
+		{Column: dialects.Column{Column: "b"}, Descending: true},
 	})
 	require.NoError(t, err)
 	assert.Equal(t, "ORDER BY `a`, `b` DESC", r.SQL)
