@@ -362,6 +362,12 @@ func (b *ModelBuilder[T]) OrderByDesc(column string) *ModelBuilder[T] {
 	return b
 }
 
+// OrderBy adds an order by clause to the query.
+func (b *ModelBuilder[T]) OrderByRaw(raw string) *ModelBuilder[T] {
+	b.builder = b.builder.OrderByRaw(raw)
+	return b
+}
+
 // Unordered removes all order by clauses from the query.
 func (b *ModelBuilder[T]) Unordered() *ModelBuilder[T] {
 	b.builder = b.builder.Unordered()

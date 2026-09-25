@@ -1,8 +1,6 @@
 package generic
 
 import (
-	"strings"
-
 	"gosalusa.com/database/dialects"
 )
 
@@ -13,12 +11,16 @@ func (g *Generic) EncodeOrderBy(orderBys []dialects.OrderColumn) (dialects.RawQu
 		return dialects.RawQuery{}, nil
 	}
 
-	identifiers := make([]string, len(orderBys))
+	b := newRawQueryBuilder()
+	b.AddString("ORDER BY")
 	for i, group := range orderBys {
-		identifiers[i] = g.core.Identifier(group.Column)
+		if i > 0 {
+			b.AddStringNoSpace(",")
+		}
+		b.Add(g.EncodeColumn(&group.Column))
 		if group.Descending {
-			identifiers[i] += " DESC"
+			b.AddString("DESC")
 		}
 	}
-	return dialects.Raw("ORDER BY " + strings.Join(identifiers, ", ")), nil
+	return b.Build()
 }

@@ -35,7 +35,7 @@ func NewSelectQuery() SelectQuery {
 // OrderColumn is a single column in an ORDER BY clause. Descending makes the
 // sort descending.
 type OrderColumn struct {
-	Column     string
+	Column     Column
 	Descending bool
 }
 
