@@ -74,8 +74,9 @@ type EventService struct {
 	Logger *slog.Logger           `inject:""`
 	DP     *di.DependencyProvider `inject:""`
 
-	listeners map[EventType][]runner
-	topic     string
+	listeners   map[EventType][]runner
+	topic       string
+	synchronous bool
 }
 
 var _ kernel.Service = (*EventService)(nil)
@@ -96,6 +97,10 @@ func Service(listeners ...*Listener) *EventService {
 
 func (s *EventService) Name() string {
 	return "event-service"
+}
+func (s *EventService) Synchronous() *EventService {
+	s.synchronous = true
+	return s
 }
 
 func (s *EventService) Run(ctx context.Context) error {
@@ -122,7 +127,11 @@ func (s *EventService) Run(ctx context.Context) error {
 		}
 		fails = 0
 
-		go s.run(ctx, m, events)
+		if s.synchronous {
+			go s.run(ctx, m, events)
+		} else {
+			s.run(ctx, m, events)
+		}
 	}
 	return ctx.Err()
 }
