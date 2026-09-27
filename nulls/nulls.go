@@ -13,6 +13,18 @@ var nullBytes = []byte("null")
 
 var emptyText = []byte{}
 
+// Null is a value of type T that may be null.
+//
+// The zero value is an invalid null holding the zero value of T. Use [New] to
+// build a valid null, and [Null.OrElse] to fall back to a value when the null
+// is invalid.
+//
+// Null implements [json.Marshaler], [json.Unmarshaler],
+// [encoding.TextMarshaler], [encoding.TextUnmarshaler], [sql.Scanner], and
+// [driver.Valuer], so it can be used directly as a JSON field, a query
+// parameter, or a database column. When Null is used as a struct field with a
+// database tag, migration generation treats the column as nullable, and the
+// wrapped type is used to infer the column type.
 type Null[T any] sql.Null[T]
 
 var _ json.Marshaler = Null[int]{}
@@ -22,6 +34,7 @@ var _ encoding.TextUnmarshaler = (*Null[int])(nil)
 var _ sql.Scanner = (*Null[int])(nil)
 var _ driver.Valuer = Null[int]{}
 
+// New returns a valid [Null] holding n.
 func New[T any](n T) Null[T] {
 	return Null[T]{
 		V:     n,
@@ -29,7 +42,9 @@ func New[T any](n T) Null[T] {
 	}
 }
 
-// MarshalJSON implements json.Marshaler.
+// MarshalJSON implements [json.Marshaler]. An invalid null marshals to the JSON
+// null literal, and a valid null marshals to the JSON encoding of the wrapped
+// value.
 func (n Null[T]) MarshalJSON() ([]byte, error) {
 	if !n.Valid {
 		return nullBytes, nil
@@ -37,7 +52,12 @@ func (n Null[T]) MarshalJSON() ([]byte, error) {
 	return json.Marshal(n.V)
 }
 
-// UnmarshalJSON implements json.Unmarshaler.
+// UnmarshalJSON implements [json.Unmarshaler]. The JSON null literal sets the
+// value to the zero value of T and marks the null invalid, and any other input
+// is unmarshalled into the wrapped value and marks the null valid.
+//
+// A decoding error is returned with the null already marked valid, so a Null
+// that is reused across decodes should be reset to its zero value first.
 func (n *Null[T]) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, nullBytes) {
 		var zero T
@@ -50,7 +70,14 @@ func (n *Null[T]) UnmarshalJSON(b []byte) error {
 	return json.Unmarshal(b, &n.V)
 }
 
-// MarshalText implements encoding.TextMarshaler.
+// MarshalText implements [encoding.TextMarshaler]. An invalid null marshals to
+// empty text, and a valid null marshals to the text encoding of the wrapped
+// value.
+//
+// If the wrapped value implements [encoding.TextMarshaler] its text encoding is
+// used, and a wrapped string is used verbatim. Every other wrapped value falls
+// back to its JSON encoding, so the text may not be a faithful representation
+// for types that do not have a text form.
 func (n Null[T]) MarshalText() ([]byte, error) {
 	if !n.Valid {
 		return emptyText, nil
@@ -68,8 +95,20 @@ func (n Null[T]) MarshalText() ([]byte, error) {
 	return json.Marshal(n.V)
 }
 
-// UnmarshalText implements encoding.TextUnmarshaler. An empty text decodes to
-// an invalid null.
+// UnmarshalText implements [encoding.TextUnmarshaler]. Empty text decodes to an
+// invalid null holding the zero value of T, and any other text is unmarshalled
+// into the wrapped value and marks the null valid.
+//
+// If the wrapped value implements [encoding.TextUnmarshaler] the text is
+// decoded by it, and a wrapped string is set to the text directly. Every other
+// wrapped value falls back to JSON, so the text must be a JSON encoding.
+//
+// A decoding error is returned with the null left invalid holding the zero
+// value of T.
+//
+// Decoding an empty text to an invalid null is what makes a Null usable as a
+// query parameter: a parameter that is absent or blank decodes to an invalid
+// null rather than to the zero value of T.
 func (n *Null[T]) UnmarshalText(text []byte) error {
 	var zero T
 	if len(text) == 0 {
@@ -99,10 +138,20 @@ func (n *Null[T]) UnmarshalText(text []byte) error {
 	return json.Unmarshal(text, &n.V)
 }
 
+// Scan implements [sql.Scanner], reading a database value into the null. A nil
+// value sets the value to the zero value of T and marks the null invalid, and
+// any other value is converted to T and marks the null valid.
+//
+// An error is returned when the value cannot be converted to T.
 func (n *Null[T]) Scan(value any) error {
 	return (*sql.Null[T])(n).Scan(value)
 }
 
+// Value implements [driver.Valuer], returning the value to store in a database
+// column. An invalid null returns a nil value, and a valid null returns the
+// wrapped value.
+//
+// An error is returned when the wrapped value has no database representation.
 func (n Null[T]) Value() (driver.Value, error) {
 	return sql.Null[T](n).Value()
 }
@@ -128,4 +177,23 @@ func Unwrap(t reflect.Type) (reflect.Type, bool) {
 	}
 
 	return reflect.New(t).Elem().Interface().(nullable).wrappedType(), true
+}
+
+// OrElse returns the wrapped value if the null is valid, and fallback
+// otherwise.
+func (n Null[T]) OrElse(fallback T) T {
+	if !n.Valid {
+		return fallback
+	}
+	return n.V
+}
+
+// Map applies fn to the wrapped value and returns the result as a valid
+// [Null]. An invalid null is returned unchanged and fn is not called, so fn
+// does not need to handle the zero value of T.
+func (n Null[T]) Map[U any](fn func(T) U) Null[U] {
+	if !n.Valid {
+		return Null[U]{}
+	}
+	return New(fn(n.V))
 }
