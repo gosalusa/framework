@@ -10,6 +10,7 @@ import (
 	"gosalusa.com/database/dialects"
 	"gosalusa.com/database/model"
 	"gosalusa.com/internal/helpers"
+	"gosalusa.com/nulls"
 )
 
 type field struct {
@@ -45,6 +46,13 @@ func getFields(m model.Model) ([]*field, error) {
 		t := sf.Type
 		if t.Kind() == reflect.Pointer {
 			t = t.Elem()
+			fv = reflect.New(t).Elem()
+			f.nullable = true
+		}
+
+		if wrapped, ok := nulls.Unwrap(t); ok {
+			// nulls.Null[T] is stored as a nullable T
+			t = wrapped
 			fv = reflect.New(t).Elem()
 			f.nullable = true
 		}
