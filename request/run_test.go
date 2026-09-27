@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
-	"gosalusa.com/nulls"
+	"gosalusa.com/optional"
 )
 
 func TestRun_unmarshals_data_from_query_string(t *testing.T) {
@@ -198,7 +198,7 @@ type IntPtr struct {
 	IntPtr *int `query:"int_ptr"`
 }
 type NullsInt struct {
-	IntPtr nulls.Null[int] `query:"int_ptr"`
+	IntPtr optional.Optional[int] `query:"int_ptr"`
 }
 type TimeReq struct {
 	Time time.Time `query:"time"`
@@ -276,7 +276,7 @@ func TestRun(t *testing.T) {
 				httptest.NewRequest("GET", "https://example.com?int_ptr=1", http.NoBody),
 				&NullsInt{},
 			},
-			wantRequest: &NullsInt{IntPtr: nulls.New[int](1)},
+			wantRequest: &NullsInt{IntPtr: optional.Some[int](1)},
 			wantErr:     false,
 		},
 		{

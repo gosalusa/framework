@@ -1,16 +1,16 @@
-package nulls_test
+package optional_test
 
 import (
 	"encoding/json"
 	"fmt"
 
-	"gosalusa.com/nulls"
+	"gosalusa.com/optional"
 )
 
 func ExampleNull() {
 	type user struct {
-		Name nulls.Null[string] `json:"name"`
-		Age  nulls.Null[int]    `json:"age"`
+		Name optional.Optional[string] `json:"name"`
+		Age  optional.Optional[int]    `json:"age"`
 	}
 
 	var u user
@@ -26,12 +26,12 @@ func ExampleNull() {
 }
 
 func ExampleNull_Map() {
-	age := nulls.New(21).Map(func(age int) string {
+	age := optional.Some(21).Map(func(age int) string {
 		return fmt.Sprintf("%d years old", age)
 	})
 	fmt.Println(age.OrElse("unknown age"))
 
-	missing := nulls.Null[int]{}.Map(func(int) string {
+	missing := optional.Optional[int]{}.Map(func(int) string {
 		return "never mapped"
 	})
 	fmt.Println(missing.OrElse("unknown age"))

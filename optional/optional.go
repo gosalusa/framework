@@ -1,4 +1,4 @@
-package nulls
+package optional
 
 import (
 	"bytes"
@@ -13,39 +13,44 @@ var nullBytes = []byte("null")
 
 var emptyText = []byte{}
 
-// Null is a value of type T that may be null.
+// Optional is a value of type T that may be null.
 //
-// The zero value is an invalid null holding the zero value of T. Use [New] to
-// build a valid null, and [Null.OrElse] to fall back to a value when the null
+// The zero value is an invalid null holding the zero value of T. Use [Some] to
+// build a valid null, and [Optional.OrElse] to fall back to a value when the null
 // is invalid.
 //
-// Null implements [json.Marshaler], [json.Unmarshaler],
+// Optional implements [json.Marshaler], [json.Unmarshaler],
 // [encoding.TextMarshaler], [encoding.TextUnmarshaler], [sql.Scanner], and
 // [driver.Valuer], so it can be used directly as a JSON field, a query
-// parameter, or a database column. When Null is used as a struct field with a
+// parameter, or a database column. When Optional is used as a struct field with a
 // database tag, migration generation treats the column as nullable, and the
 // wrapped type is used to infer the column type.
-type Null[T any] sql.Null[T]
+type Optional[T any] sql.Null[T]
 
-var _ json.Marshaler = Null[int]{}
-var _ json.Unmarshaler = (*Null[int])(nil)
-var _ encoding.TextMarshaler = Null[int]{}
-var _ encoding.TextUnmarshaler = (*Null[int])(nil)
-var _ sql.Scanner = (*Null[int])(nil)
-var _ driver.Valuer = Null[int]{}
+var _ json.Marshaler = Optional[int]{}
+var _ json.Unmarshaler = (*Optional[int])(nil)
+var _ encoding.TextMarshaler = Optional[int]{}
+var _ encoding.TextUnmarshaler = (*Optional[int])(nil)
+var _ sql.Scanner = (*Optional[int])(nil)
+var _ driver.Valuer = Optional[int]{}
 
-// New returns a valid [Null] holding n.
-func New[T any](n T) Null[T] {
-	return Null[T]{
+// Some returns a valid [Optional] holding n.
+func Some[T any](n T) Optional[T] {
+	return Optional[T]{
 		V:     n,
 		Valid: true,
 	}
 }
 
+// Some returns an empty [Optional].
+func None[T any]() Optional[T] {
+	return Optional[T]{}
+}
+
 // MarshalJSON implements [json.Marshaler]. An invalid null marshals to the JSON
 // null literal, and a valid null marshals to the JSON encoding of the wrapped
 // value.
-func (n Null[T]) MarshalJSON() ([]byte, error) {
+func (n Optional[T]) MarshalJSON() ([]byte, error) {
 	if !n.Valid {
 		return nullBytes, nil
 	}
@@ -58,7 +63,7 @@ func (n Null[T]) MarshalJSON() ([]byte, error) {
 //
 // A decoding error is returned with the null already marked valid, so a Null
 // that is reused across decodes should be reset to its zero value first.
-func (n *Null[T]) UnmarshalJSON(b []byte) error {
+func (n *Optional[T]) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, nullBytes) {
 		var zero T
 		n.V = zero
@@ -78,7 +83,7 @@ func (n *Null[T]) UnmarshalJSON(b []byte) error {
 // used, and a wrapped string is used verbatim. Every other wrapped value falls
 // back to its JSON encoding, so the text may not be a faithful representation
 // for types that do not have a text form.
-func (n Null[T]) MarshalText() ([]byte, error) {
+func (n Optional[T]) MarshalText() ([]byte, error) {
 	if !n.Valid {
 		return emptyText, nil
 	}
@@ -109,7 +114,7 @@ func (n Null[T]) MarshalText() ([]byte, error) {
 // Decoding an empty text to an invalid null is what makes a Null usable as a
 // query parameter: a parameter that is absent or blank decodes to an invalid
 // null rather than to the zero value of T.
-func (n *Null[T]) UnmarshalText(text []byte) error {
+func (n *Optional[T]) UnmarshalText(text []byte) error {
 	var zero T
 	if len(text) == 0 {
 		n.V = zero
@@ -143,7 +148,7 @@ func (n *Null[T]) UnmarshalText(text []byte) error {
 // any other value is converted to T and marks the null valid.
 //
 // An error is returned when the value cannot be converted to T.
-func (n *Null[T]) Scan(value any) error {
+func (n *Optional[T]) Scan(value any) error {
 	return (*sql.Null[T])(n).Scan(value)
 }
 
@@ -152,7 +157,7 @@ func (n *Null[T]) Scan(value any) error {
 // wrapped value.
 //
 // An error is returned when the wrapped value has no database representation.
-func (n Null[T]) Value() (driver.Value, error) {
+func (n Optional[T]) Value() (driver.Value, error) {
 	return sql.Null[T](n).Value()
 }
 
@@ -162,9 +167,9 @@ type nullable interface {
 	wrappedType() reflect.Type
 }
 
-var _ nullable = Null[int]{}
+var _ nullable = Optional[int]{}
 
-func (n Null[T]) wrappedType() reflect.Type {
+func (n Optional[T]) wrappedType() reflect.Type {
 	return reflect.TypeFor[T]()
 }
 
@@ -181,7 +186,7 @@ func Unwrap(t reflect.Type) (reflect.Type, bool) {
 
 // OrElse returns the wrapped value if the null is valid, and fallback
 // otherwise.
-func (n Null[T]) OrElse(fallback T) T {
+func (n Optional[T]) OrElse(fallback T) T {
 	if !n.Valid {
 		return fallback
 	}
@@ -189,11 +194,11 @@ func (n Null[T]) OrElse(fallback T) T {
 }
 
 // Map applies fn to the wrapped value and returns the result as a valid
-// [Null]. An invalid null is returned unchanged and fn is not called, so fn
+// [Optional]. An invalid null is returned unchanged and fn is not called, so fn
 // does not need to handle the zero value of T.
-func (n Null[T]) Map[U any](fn func(T) U) Null[U] {
+func (n Optional[T]) Map[U any](fn func(T) U) Optional[U] {
 	if !n.Valid {
-		return Null[U]{}
+		return Optional[U]{}
 	}
-	return New(fn(n.V))
+	return Some(fn(n.V))
 }

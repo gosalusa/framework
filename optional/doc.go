@@ -14,4 +14,4 @@
 // [encoding.TextMarshaler] and [encoding.TextUnmarshaler], where empty text
 // decodes to an invalid null, which is what makes a Null bind cleanly from a
 // missing or blank query parameter.
-package nulls
+package optional
