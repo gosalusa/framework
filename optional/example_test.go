@@ -7,7 +7,7 @@ import (
 	"gosalusa.com/optional"
 )
 
-func ExampleNull() {
+func ExampleOptional() {
 	type user struct {
 		Name optional.Optional[string] `json:"name"`
 		Age  optional.Optional[int]    `json:"age"`
@@ -25,7 +25,7 @@ func ExampleNull() {
 	// Salusa -1
 }
 
-func ExampleNull_Map() {
+func ExampleOptional_Map() {
 	age := optional.Some(21).Map(func(age int) string {
 		return fmt.Sprintf("%d years old", age)
 	})
