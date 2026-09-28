@@ -2,7 +2,7 @@ version: "3.8"
 services:
   mysql_db:
     image: mysql:8.0
-    container_name: mysql_test_db
+    container_name: salusa_mysql_test_db
     environment:
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_DATABASE: test_db
@@ -16,7 +16,7 @@ services:
 
   postgres_db:
     image: postgres:14
-    container_name: postgres_test_db
+    container_name: salusa_postgres_test_db
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
