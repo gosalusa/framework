@@ -2,6 +2,7 @@ package event
 
 import (
 	"context"
+	"errors"
 	"log/slog"
 	"reflect"
 	"time"
@@ -16,9 +17,15 @@ type Handler[E Event] interface {
 	Handle(ctx context.Context, event E) error
 }
 
+// ErrEventTypeMismatch is returned by a runner when the decoded event is not
+// the type the runner was registered for.
+var ErrEventTypeMismatch = errors.New("event type does not match runner")
+
+// runner invokes a handler for a single decoded event. Runners are shared by
+// every message the service handles, so they must not hold per-message state:
+// the event is passed in rather than stored.
 type runner interface {
-	UpdateValue(v Event) bool
-	Run(ctx context.Context, dp *di.DependencyProvider) error
+	Run(ctx context.Context, dp *di.DependencyProvider, e Event) error
 	EventType() reflect.Type
 }
 type Listener struct {
@@ -27,11 +34,17 @@ type Listener struct {
 }
 
 type handler[E Event] struct {
-	value       E
 	handlerType reflect.Type
 }
 
-func (j *handler[E]) Run(ctx context.Context, dp *di.DependencyProvider) error {
+// Run builds a handler for the event and invokes it. It returns
+// ErrEventTypeMismatch without building a handler if e is not an E.
+func (j *handler[E]) Run(ctx context.Context, dp *di.DependencyProvider, e Event) error {
+	v, ok := e.(E)
+	if !ok {
+		return ErrEventTypeMismatch
+	}
+
 	t := j.handlerType
 	h := helpers.Create(t).Interface().(Handler[E])
 
@@ -41,17 +54,9 @@ func (j *handler[E]) Run(ctx context.Context, dp *di.DependencyProvider) error {
 			return err
 		}
 	}
-	return h.Handle(ctx, j.value)
+	return h.Handle(ctx, v)
 }
 
-func (j *handler[E]) UpdateValue(v Event) bool {
-	ev, ok := v.(E)
-	if !ok {
-		return false
-	}
-	j.value = ev
-	return true
-}
 func (j *handler[E]) EventType() reflect.Type {
 	var e E
 	return reflect.TypeOf(e)
@@ -63,7 +68,6 @@ func NewListener[H Handler[E], E Event]() *Listener {
 	return &Listener{
 		eventType: e.Type(),
 		runner: &handler[E]{
-			value:       e,
 			handlerType: reflect.TypeFor[H](),
 		},
 	}
@@ -98,6 +102,10 @@ func Service(listeners ...*Listener) *EventService {
 func (s *EventService) Name() string {
 	return "event-service"
 }
+// Synchronous makes the service handle each message inline, on the dequeue
+// loop's own goroutine, rather than dispatching it to a new one. The loop then
+// waits for the handler to return before dequeuing the next message. By default
+// handlers run concurrently, one goroutine per message.
 func (s *EventService) Synchronous() *EventService {
 	s.synchronous = true
 	return s
@@ -128,9 +136,9 @@ func (s *EventService) Run(ctx context.Context) error {
 		fails = 0
 
 		if s.synchronous {
-			go s.run(ctx, m, events)
-		} else {
 			s.run(ctx, m, events)
+		} else {
+			go s.run(ctx, m, events)
 		}
 	}
 	return ctx.Err()
@@ -151,13 +159,12 @@ func (s *EventService) run(ctx context.Context, m pubsub.Message, events map[Eve
 	}
 
 	for _, r := range runners {
-		if r.UpdateValue(e) {
-			err := r.Run(ctx, s.DP)
-			if err != nil {
-				s.Logger.Warn("handler failed", slog.Any("error", err))
-			}
-		} else {
+		err := r.Run(ctx, s.DP, e)
+		switch {
+		case errors.Is(err, ErrEventTypeMismatch):
 			s.Logger.Warn("mismatched event and type, there may be a conflict")
+		case err != nil:
+			s.Logger.Warn("handler failed", slog.Any("error", err))
 		}
 	}
 }

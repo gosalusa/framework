@@ -3,7 +3,6 @@ module gosalusa.com
 go 1.27.0
 
 require (
-	github.com/abibby/nulls v1.1.0
 	github.com/bearsoft-fi/slogloki v0.0.2
 	github.com/bradleyjkemp/cupaloy v2.3.0+incompatible
 	github.com/cosmtrek/air v1.61.2
