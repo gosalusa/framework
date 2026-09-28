@@ -42,6 +42,14 @@ func Some[T any](n T) Optional[T] {
 	}
 }
 
+// Of returns a valid [Optional] holding n.
+func OfNull[T any](n *T) Optional[T] {
+	if n == nil {
+		return None[T]()
+	}
+	return Some(*n)
+}
+
 // Some returns an empty [Optional].
 func None[T any]() Optional[T] {
 	return Optional[T]{}
@@ -201,4 +209,14 @@ func (n Optional[T]) Map[U any](fn func(T) U) Optional[U] {
 		return Optional[U]{}
 	}
 	return Some(fn(n.V))
+}
+
+func (n Optional[T]) IfPresent(fn func(T)) {
+	if n.Valid {
+		fn(n.V)
+	}
+}
+
+func (n Optional[T]) Ok() (T, bool) {
+	return n.V, n.Valid
 }
