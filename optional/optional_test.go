@@ -44,22 +44,38 @@ func (u *undecodable) UnmarshalText([]byte) error {
 	return errBadText
 }
 
-func TestNew(t *testing.T) {
+func TestSome(t *testing.T) {
 	t.Run("int", func(t *testing.T) {
-		assert.Equal(t, optional.Optional[int]{V: 42, Valid: true}, optional.Some(42))
+		o := optional.Some(42)
+		assert.True(t, o.Valid())
+		val, ok := o.Ok()
+		assert.True(t, ok)
+		assert.Equal(t, 42, val)
 	})
 
 	t.Run("string", func(t *testing.T) {
-		assert.Equal(t, optional.Optional[string]{V: "hello", Valid: true}, optional.Some("hello"))
+		o := optional.Some("hello")
+		assert.True(t, o.Valid())
+		val, ok := o.Ok()
+		assert.True(t, ok)
+		assert.Equal(t, "hello", val)
 	})
 
 	t.Run("struct", func(t *testing.T) {
 		want := person{Name: "Salusa", Age: 3}
-		assert.Equal(t, optional.Optional[person]{V: want, Valid: true}, optional.Some(want))
+		o := optional.Some(want)
+		assert.True(t, o.Valid())
+		val, ok := o.Ok()
+		assert.True(t, ok)
+		assert.Equal(t, want, val)
 	})
 
 	t.Run("zero value is still valid", func(t *testing.T) {
-		assert.True(t, optional.Some(0).Valid)
+		o := optional.Some(0)
+		assert.True(t, o.Valid())
+		val, ok := o.Ok()
+		assert.True(t, ok)
+		assert.Equal(t, 0, val)
 	})
 }
 
@@ -404,5 +420,129 @@ func TestNull_Map(t *testing.T) {
 		})
 		assert.False(t, called)
 		assert.Equal(t, optional.Optional[string]{}, got)
+	})
+}
+
+func TestNone(t *testing.T) {
+	t.Run("int", func(t *testing.T) {
+		assert.Equal(t, optional.Optional[int]{}, optional.None[int]())
+		assert.False(t, optional.None[int]().Valid())
+	})
+
+	t.Run("string", func(t *testing.T) {
+		assert.Equal(t, optional.Optional[string]{}, optional.None[string]())
+		assert.False(t, optional.None[string]().Valid())
+	})
+
+	t.Run("struct", func(t *testing.T) {
+		assert.Equal(t, optional.Optional[person]{}, optional.None[person]())
+		assert.False(t, optional.None[person]().Valid())
+	})
+}
+
+func TestOfNull(t *testing.T) {
+	t.Run("non-nil pointer", func(t *testing.T) {
+		val := 42
+		assert.Equal(t, optional.Some(42), optional.OfNull(&val))
+	})
+
+	t.Run("nil pointer", func(t *testing.T) {
+		var p *int
+		assert.Equal(t, optional.None[int](), optional.OfNull(p))
+	})
+
+	t.Run("non-nil string pointer", func(t *testing.T) {
+		s := "hello"
+		assert.Equal(t, optional.Some("hello"), optional.OfNull(&s))
+	})
+
+	t.Run("nil string pointer", func(t *testing.T) {
+		var s *string
+		assert.Equal(t, optional.None[string](), optional.OfNull(s))
+	})
+}
+
+func TestOptional_Ok(t *testing.T) {
+	t.Run("valid value", func(t *testing.T) {
+		val, ok := optional.Some(42).Ok()
+		assert.True(t, ok)
+		assert.Equal(t, 42, val)
+	})
+
+	t.Run("valid zero value", func(t *testing.T) {
+		val, ok := optional.Some(0).Ok()
+		assert.True(t, ok)
+		assert.Equal(t, 0, val)
+	})
+
+	t.Run("invalid int", func(t *testing.T) {
+		val, ok := optional.None[int]().Ok()
+		assert.False(t, ok)
+		assert.Equal(t, 0, val)
+	})
+
+	t.Run("invalid string", func(t *testing.T) {
+		val, ok := optional.None[string]().Ok()
+		assert.False(t, ok)
+		assert.Equal(t, "", val)
+	})
+}
+
+func TestOptional_Or(t *testing.T) {
+	t.Run("valid does not invoke fn", func(t *testing.T) {
+		var called bool
+		got := optional.Some(42).Or(func() optional.Optional[int] {
+			called = true
+			return optional.Some(99)
+		})
+		assert.False(t, called)
+		assert.Equal(t, optional.Some(42), got)
+	})
+
+	t.Run("invalid invokes fn returning valid", func(t *testing.T) {
+		var called bool
+		got := optional.None[int]().Or(func() optional.Optional[int] {
+			called = true
+			return optional.Some(99)
+		})
+		assert.True(t, called)
+		assert.Equal(t, optional.Some(99), got)
+	})
+
+	t.Run("invalid invokes fn returning invalid", func(t *testing.T) {
+		var called bool
+		got := optional.None[int]().Or(func() optional.Optional[int] {
+			called = true
+			return optional.None[int]()
+		})
+		assert.True(t, called)
+		assert.Equal(t, optional.None[int](), got)
+	})
+}
+
+func TestOptional_All(t *testing.T) {
+	t.Run("valid iterates once", func(t *testing.T) {
+		var values []int
+		for v := range optional.Some(42).All() {
+			values = append(values, v)
+		}
+		assert.Equal(t, []int{42}, values)
+	})
+
+	t.Run("invalid does not iterate", func(t *testing.T) {
+		var values []int
+		for v := range optional.None[int]().All() {
+			values = append(values, v)
+		}
+		assert.Empty(t, values)
+	})
+
+	t.Run("early break terminates iteration", func(t *testing.T) {
+		var count int
+		for range optional.Some("test").All() {
+			count++
+			break
+		}
+		assert.Equal(t, 1, count)
 	})
 }
