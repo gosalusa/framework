@@ -6,8 +6,8 @@
 // zero value is an invalid null, New builds a valid one, and OrElse falls back
 // to a value when the null is invalid:
 //
-//	name := nulls.New("Salusa").OrElse("unknown")
-//	age := nulls.Null[int]{}.OrElse(0)
+//	name := nulls.Some("Salusa").OrElse("unknown")
+//	age := nulls.None[int]().OrElse(0)
 //
 // A Null marshals to the JSON null literal when invalid, and to the JSON
 // encoding of the wrapped value when valid. The same type implements

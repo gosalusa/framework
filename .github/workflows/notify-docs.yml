@@ -1,0 +1,47 @@
+name: Notify docs
+
+# Tells gosalusa/docs to run its opencode-backed release-docs sync whenever a
+# release is published here. The docs workflow diffs the previous tag against
+# this one and opens a pull request.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    name: Dispatch release to gosalusa/docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the release
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Resolve previous tag
+        id: prev
+        run: |
+          set -euo pipefail
+          tag="${{ github.event.release.tag_name }}"
+          prev="$(git describe --tags --abbrev=0 "${tag}^" 2>/dev/null || true)"
+          if [ -z "${prev}" ] || [ "${prev}" = "${tag}" ]; then
+            echo "prev=" >> "$GITHUB_OUTPUT"
+          else
+            echo "prev=${prev}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Dispatch repository_dispatch
+        env:
+          GH_TOKEN: ${{ secrets.DOCS_DISPATCH_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
+          PREV: ${{ steps.prev.outputs.prev }}
+        run: |
+          set -euo pipefail
+          gh api --method POST repos/gosalusa/docs/dispatches \
+            -f event_type=release-published \
+            -f "client_payload[tag]=${TAG}" \
+            -f "client_payload[previous_tag]=${PREV}" \
+            -f "client_payload[repository]=${GITHUB_REPOSITORY}" \
+            -f "client_payload[release_url]=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/tag/${TAG}"
