@@ -1,16 +1,16 @@
-package optional_test
+package option_test
 
 import (
 	"encoding/json"
 	"fmt"
 
-	"gosalusa.com/optional"
+	"gosalusa.com/option"
 )
 
 func ExampleOptional() {
 	type user struct {
-		Name optional.Optional[string] `json:"name"`
-		Age  optional.Optional[int]    `json:"age"`
+		Name option.Option[string] `json:"name"`
+		Age  option.Option[int]    `json:"age"`
 	}
 
 	var u user
@@ -26,12 +26,12 @@ func ExampleOptional() {
 }
 
 func ExampleOptional_Map() {
-	age := optional.Some(21).Map(func(age int) string {
+	age := option.Some(21).Map(func(age int) string {
 		return fmt.Sprintf("%d years old", age)
 	})
 	fmt.Println(age.OrElse("unknown age"))
 
-	missing := optional.Optional[int]{}.Map(func(int) string {
+	missing := option.Option[int]{}.Map(func(int) string {
 		return "never mapped"
 	})
 	fmt.Println(missing.OrElse("unknown age"))

@@ -12,7 +12,7 @@ import (
 	"gosalusa.com/database/migrate"
 	"gosalusa.com/database/model"
 	"gosalusa.com/database/schema"
-	"gosalusa.com/optional"
+	"gosalusa.com/option"
 )
 
 type Date int
@@ -25,9 +25,9 @@ func TestGenerateMigration(t *testing.T) {
 	t.Run("create", func(t *testing.T) {
 		type TestModel struct {
 			model.BaseModel
-			ID       int                       `db:"id,primary"`
-			Nullable optional.Optional[string] `db:"nullable"`
-			Indexed  bool                      `db:"indexed,index"`
+			ID       int                   `db:"id,primary"`
+			Nullable option.Option[string] `db:"nullable"`
+			Indexed  bool                  `db:"indexed,index"`
 		}
 		src, err := migrate.New().GenerateMigration("2023-01-01T00:00:00Z create test model", "packageName", &TestModel{})
 		assert.NoError(t, err)
