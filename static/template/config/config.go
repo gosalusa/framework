@@ -9,7 +9,6 @@ import (
 	"gosalusa.com/database/dialects/sqlite"
 	"gosalusa.com/email"
 	"gosalusa.com/env"
-	"gosalusa.com/filesystem"
 )
 
 type Config struct {
@@ -18,7 +17,7 @@ type Config struct {
 
 	Database   database.Config
 	Mail       email.Config
-	FileSystem filesystem.Config
+	FileSystem string
 }
 
 func Load() *Config {
@@ -40,7 +39,7 @@ func Load() *Config {
 			Username: env.String("MAIL_USERNAME", "user"),
 			Password: env.String("MAIL_PASSWORD", "pass"),
 		},
-		FileSystem: filesystem.NewLocalFS("./files"),
+		FileSystem: "./files",
 	}
 }
 

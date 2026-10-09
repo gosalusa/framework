@@ -20,6 +20,24 @@ var (
 	ErrMissingDependancy = errors.New("missing dependancy")
 )
 
+// Uses embeds into a struct to declare and validate dependencies of type T.
+// When embedded, it allows the struct to be validated to ensure all dependencies
+// that T requires via `inject` fields are registered in the DI container.
+//
+// Example:
+//
+//	type Foo struct {
+//		Logger *slog.Logger `inject:""`
+//	}
+//	type Bar struct {
+//		di.Uses[*Foo]
+//	}
+type Uses[T any] struct{}
+
+func (v *Uses[T]) Validate(ctx context.Context) error {
+	return ValidatorFor[T](ctx).Validate(ctx)
+}
+
 // DIValidator checks that every inject field on a struct has a registered
 // factory. It implements validate.Validator.
 type DIValidator struct {
@@ -65,13 +83,19 @@ func (v *DIValidator) Validate(ctx context.Context) error {
 }
 
 // Validator returns a DIValidator for rootType using the dependency provider
-// carried by ctx.
+// carried by ctx. Use GetDependencyProvider(ctx) to retrieve the provider.
 func Validator(ctx context.Context, rootType reflect.Type) *DIValidator {
 	return GetDependencyProvider(ctx).Validator(rootType)
 }
 
+// ValidatorFor returns a DIValidator for type T using the dependency provider
+// carried by ctx. Use GetDependencyProvider(ctx) to retrieve the provider.
+func ValidatorFor[T any](ctx context.Context) *DIValidator {
+	return Validator(ctx, reflect.TypeFor[T]())
+}
+
 // Validator returns a DIValidator for rootType validated against this
-// provider.
+// DependencyProvider.
 func (dp *DependencyProvider) Validator(rootType reflect.Type) *DIValidator {
 	return &DIValidator{
 		dp:  dp,
@@ -80,7 +104,7 @@ func (dp *DependencyProvider) Validator(rootType reflect.Type) *DIValidator {
 }
 
 // Validate checks the registered factories for dependency cycles. A missing
-// dependency in a With factory is reported as an error wrapping
+// dependency in a Dependant factory is reported as an error wrapping
 // ErrMissingDependancy, and a cycle as an error wrapping ErrDependancyCycle.
 func (dp *DependencyProvider) Validate(ctx context.Context) error {
 	errs := []error{}

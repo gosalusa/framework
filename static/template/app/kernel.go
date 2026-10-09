@@ -10,7 +10,6 @@ import (
 	"gosalusa.com/email"
 	"gosalusa.com/event"
 	"gosalusa.com/event/cron"
-	"gosalusa.com/filesystem"
 	"gosalusa.com/kernel"
 	"gosalusa.com/openapidoc"
 	"gosalusa.com/openapidoc/openapidocdi"
@@ -25,6 +24,7 @@ import (
 	"gosalusa.com/static/template/resources"
 	"gosalusa.com/static/template/routes"
 	"gosalusa.com/view"
+	"gosalusa.com/wfs"
 )
 
 var Kernel = kernel.New(
@@ -41,7 +41,7 @@ var Kernel = kernel.New(
 			request.Register(ctx)
 			auth.Register[*models.User](ctx)
 			event.Register(ctx)
-			filesystem.Register(ctx, c.FileSystem)
+			wfs.RegisterLocal(ctx, c.FileSystem)
 			openapidocdi.Register(ctx)
 		}),
 	),
