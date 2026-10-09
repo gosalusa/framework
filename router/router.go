@@ -26,12 +26,13 @@ func (f InlineMiddlewareFunc) Middleware(next http.Handler) http.Handler {
 }
 
 type Route struct {
-	Path    string
-	Method  string
-	name    string
-	handler http.Handler
-	router  *Router
-	route   *mux.Route
+	Path       string
+	Method     string
+	name       string
+	handler    http.Handler
+	router     *Router
+	route      *mux.Route
+	middleware []Middleware
 }
 
 func (r *Route) GetMiddleware() []Middleware {
@@ -46,6 +47,8 @@ func (r *Route) Name(name string) *Route {
 
 func (r *Route) Middleware(middleware Middleware) *Route {
 	r.handler = middleware.Middleware(r.handler)
+	r.route.Handler(r.handler)
+	r.middleware = append(r.middleware, middleware)
 	return r
 }
 
@@ -131,11 +134,12 @@ func (r *Router) Group(prefix string, cb func(r *Router)) {
 
 func (r *Router) addRoute(muxRoute *mux.Route, handler http.Handler, pathName, method string) *Route {
 	route := &Route{
-		Path:    path.Join(r.prefix, pathName),
-		Method:  method,
-		handler: handler,
-		router:  r,
-		route:   muxRoute,
+		Path:       path.Join(r.prefix, pathName),
+		Method:     method,
+		handler:    handler,
+		router:     r,
+		route:      muxRoute,
+		middleware: []Middleware{},
 	}
 	r.routes.Routes = append(r.routes.Routes, route)
 	return route

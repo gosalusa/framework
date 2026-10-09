@@ -5,13 +5,14 @@ import (
 
 	"gosalusa.com/database"
 	"gosalusa.com/database/builder"
+	"gosalusa.com/option"
 )
 
 // SoftDelete adds a deleted_at column to a model and soft deletes records
 // instead of removing them. Embed it in a model to hide soft-deleted rows from
 // every query and to turn Delete into an update of deleted_at.
 type SoftDelete struct {
-	DeletedAt *time.Time `json:"deleted_at" db:"deleted_at"`
+	DeletedAt option.Option[time.Time] `json:"deleted_at" db:"deleted_at"`
 }
 
 // Scopes returns the model's global scopes, which applies SoftDeleteScope to

@@ -12,6 +12,11 @@ func (r *Router) Validate(ctx context.Context) error {
 		if v, ok := route.handler.(validate.Validator); ok {
 			err = validate.Append(ctx, err, v)
 		}
+		for _, middleware := range route.middleware {
+			if v, ok := middleware.(validate.Validator); ok {
+				err = validate.Append(ctx, err, v)
+			}
+		}
 	}
 	return err
 }

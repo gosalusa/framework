@@ -64,11 +64,11 @@ func None[T any]() Option[T] {
 // MarshalJSON implements [json.Marshaler]. An invalid null marshals to the JSON
 // null literal, and a valid null marshals to the JSON encoding of the wrapped
 // value.
-func (n Option[T]) MarshalJSON() ([]byte, error) {
-	if !n.null.Valid {
+func (o Option[T]) MarshalJSON() ([]byte, error) {
+	if !o.null.Valid {
 		return nullBytes, nil
 	}
-	return json.Marshal(n.null.V)
+	return json.Marshal(o.null.V)
 }
 
 // UnmarshalJSON implements [json.Unmarshaler]. The JSON null literal sets the
@@ -77,16 +77,16 @@ func (n Option[T]) MarshalJSON() ([]byte, error) {
 //
 // A decoding error is returned with the null already marked valid, so a Null
 // that is reused across decodes should be reset to its zero value first.
-func (n *Option[T]) UnmarshalJSON(b []byte) error {
+func (o *Option[T]) UnmarshalJSON(b []byte) error {
 	if bytes.Equal(b, nullBytes) {
 		var zero T
-		n.null.V = zero
-		n.null.Valid = false
+		o.null.V = zero
+		o.null.Valid = false
 		return nil
 	}
 
-	n.null.Valid = true
-	return json.Unmarshal(b, &n.null.V)
+	o.null.Valid = true
+	return json.Unmarshal(b, &o.null.V)
 }
 
 // MarshalText implements [encoding.TextMarshaler]. An invalid null marshals to
@@ -97,21 +97,21 @@ func (n *Option[T]) UnmarshalJSON(b []byte) error {
 // used, and a wrapped string is used verbatim. Every other wrapped value falls
 // back to its JSON encoding, so the text may not be a faithful representation
 // for types that do not have a text form.
-func (n Option[T]) MarshalText() ([]byte, error) {
-	if !n.null.Valid {
+func (o Option[T]) MarshalText() ([]byte, error) {
+	if !o.null.Valid {
 		return emptyText, nil
 	}
 
-	if m, ok := any(n.null.V).(encoding.TextMarshaler); ok {
+	if m, ok := any(o.null.V).(encoding.TextMarshaler); ok {
 		return m.MarshalText()
 	}
 
-	v := reflect.ValueOf(n.null.V)
+	v := reflect.ValueOf(o.null.V)
 	if v.Kind() == reflect.String {
 		return []byte(v.String()), nil
 	}
 
-	return json.Marshal(n.null.V)
+	return json.Marshal(o.null.V)
 }
 
 // UnmarshalText implements [encoding.TextUnmarshaler]. Empty text decodes to an
@@ -128,33 +128,33 @@ func (n Option[T]) MarshalText() ([]byte, error) {
 // Decoding an empty text to an invalid null is what makes a Null usable as a
 // query parameter: a parameter that is absent or blank decodes to an invalid
 // null rather than to the zero value of T.
-func (n *Option[T]) UnmarshalText(text []byte) error {
+func (o *Option[T]) UnmarshalText(text []byte) error {
 	var zero T
 	if len(text) == 0 {
-		n.null.V = zero
-		n.null.Valid = false
+		o.null.V = zero
+		o.null.Valid = false
 		return nil
 	}
 
-	if u, ok := any(&n.null.V).(encoding.TextUnmarshaler); ok {
+	if u, ok := any(&o.null.V).(encoding.TextUnmarshaler); ok {
 		if err := u.UnmarshalText(text); err != nil {
-			n.null.V = zero
-			n.null.Valid = false
+			o.null.V = zero
+			o.null.Valid = false
 			return err
 		}
-		n.null.Valid = true
+		o.null.Valid = true
 		return nil
 	}
 
-	v := reflect.ValueOf(&n.null.V).Elem()
+	v := reflect.ValueOf(&o.null.V).Elem()
 	if v.Kind() == reflect.String {
 		v.SetString(string(text))
-		n.null.Valid = true
+		o.null.Valid = true
 		return nil
 	}
 
-	n.null.Valid = true
-	return json.Unmarshal(text, &n.null.V)
+	o.null.Valid = true
+	return json.Unmarshal(text, &o.null.V)
 }
 
 // Scan implements [sql.Scanner], reading a database value into the null. A nil
@@ -162,8 +162,8 @@ func (n *Option[T]) UnmarshalText(text []byte) error {
 // any other value is converted to T and marks the null valid.
 //
 // An error is returned when the value cannot be converted to T.
-func (n *Option[T]) Scan(value any) error {
-	return n.null.Scan(value)
+func (o *Option[T]) Scan(value any) error {
+	return o.null.Scan(value)
 }
 
 // Value implements [driver.Valuer], returning the value to store in a database
@@ -171,8 +171,8 @@ func (n *Option[T]) Scan(value any) error {
 // wrapped value.
 //
 // An error is returned when the wrapped value has no database representation.
-func (n Option[T]) Value() (driver.Value, error) {
-	return n.null.Value()
+func (o Option[T]) Value() (driver.Value, error) {
+	return o.null.Value()
 }
 
 // nullable is implemented by Null[T] so that the wrapped type can be recovered
@@ -183,7 +183,7 @@ type nullable interface {
 
 var _ nullable = Option[int]{}
 
-func (n Option[T]) wrappedType() reflect.Type {
+func (o Option[T]) wrappedType() reflect.Type {
 	return reflect.TypeFor[T]()
 }
 
@@ -200,51 +200,58 @@ func Unwrap(t reflect.Type) (reflect.Type, bool) {
 
 // OrElse returns the wrapped value if the null is valid, and fallback
 // otherwise.
-func (n Option[T]) OrElse(fallback T) T {
-	if !n.null.Valid {
+func (o Option[T]) OrElse(fallback T) T {
+	if !o.null.Valid {
 		return fallback
 	}
-	return n.null.V
+	return o.null.V
 }
 
 // Map applies fn to the wrapped value and returns the result as a valid
 // [Option]. An invalid null is returned unchanged and fn is not called, so fn
 // does not need to handle the zero value of T.
-func (n Option[T]) Map[U any](fn func(T) U) Option[U] {
-	if !n.null.Valid {
-		return Option[U]{}
+func (o Option[T]) Map[U any](fn func(T) U) Option[U] {
+	if !o.null.Valid {
+		return None[U]()
 	}
-	return Some(fn(n.null.V))
+	return Some(fn(o.null.V))
+}
+
+func (o Option[T]) FlatMap[U any](fn func(T) Option[U]) Option[U] {
+	if !o.null.Valid {
+		return None[U]()
+	}
+	return fn(o.null.V)
 }
 
 // Ok returns the wrapped value and true if the [Option] is valid, or the zero
 // value of T and false otherwise.
-func (n Option[T]) Ok() (T, bool) {
-	return n.null.V, n.null.Valid
+func (o Option[T]) Ok() (T, bool) {
+	return o.null.V, o.null.Valid
 }
 
 // Or returns n if it is valid, and otherwise calls fn and returns its result.
 // fn is only evaluated if n is invalid, allowing lazy fallback resolution.
-func (n Option[T]) Or(fn func() Option[T]) Option[T] {
-	if n.null.Valid {
-		return n
+func (o Option[T]) Or(fn func() Option[T]) Option[T] {
+	if o.null.Valid {
+		return o
 	}
 	return fn()
 }
 
 // All returns an iterator over the wrapped value. If the [Option] is valid,
 // it yields the value once; otherwise, it yields nothing.
-func (n Option[T]) All() iter.Seq[T] {
+func (o Option[T]) All() iter.Seq[T] {
 	return func(yield func(T) bool) {
-		if !n.null.Valid {
+		if !o.null.Valid {
 			return
 		}
-		yield(n.null.V)
+		yield(o.null.V)
 	}
 }
 
 // All returns an iterator over the wrapped value. If the [Option] is valid,
 // it yields the value once; otherwise, it yields nothing.
-func (n Option[T]) Valid() bool {
-	return n.null.Valid
+func (o Option[T]) Valid() bool {
+	return o.null.Valid
 }

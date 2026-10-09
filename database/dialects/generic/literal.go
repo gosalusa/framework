@@ -1,6 +1,8 @@
 package generic
 
-import "gosalusa.com/database/dialects"
+import (
+	"gosalusa.com/database/dialects"
+)
 
 // EncodeLiteral renders v as a binding placeholder with the value as a
 // binding.
